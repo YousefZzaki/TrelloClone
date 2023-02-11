@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Trello Clone</string>
+    <string name="trello_clone">Trello Clone</string>
+    <string name="let_s_get_started">Let\'s get started</string>
+    <string name="collaborate_in_the_project_with_multiple_devices">collaborate in the project with multiple devices
+        \nand plane for the project around the task</string>
+    <string name="string_introduce">collaborate in the project with multiple device \n and plane for the project around the task</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="you_need_to_enter_your_details">You need to enter your details.</string>
+    <string name="name">Name</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Password</string>
+    <string name="enter_your_email_and_password">Enter your email and password</string>
+    <string name="please_wait">Please wait…</string>
+    <string name="double_click_to_exit">double click to exit</string>
+    <string name="my_profile">My profile</string>
+    <string name="sign_out">Sign out</string>
+    <string name="username">Username</string>
+    <string name="update">Update</string>
+    <string name="phone_number">Phone number</string>
+
+    <string name="registering_user">Registering user…</string>
+    <string name="signing_in">Signing in…</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="create_board">CREATE BOARD</string>
+    <string name="board_name">Board name</string>
+    <string name="create">Create</string>
+</resources>
