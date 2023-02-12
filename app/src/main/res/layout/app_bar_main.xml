@@ -12,8 +12,15 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:elevation="5dp"
             app:layout_constraintTop_toTopOf="parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_toolbar_profile"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                app:civ_border_color="@color/primary_text_color"
+                app:civ_border_width="0.5dp"/>
         </androidx.appcompat.widget.Toolbar>
 
 

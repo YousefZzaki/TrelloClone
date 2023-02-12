@@ -20,6 +20,7 @@ open class BaseActivity : AppCompatActivity() {
 
     companion object {
         val TAG = "TAG"
+        var selectedProfileImageFileUri: Uri? = null
     }
 
     private lateinit var progressBar: Dialog

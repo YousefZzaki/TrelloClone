@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -18,6 +20,7 @@ import com.yz.trelloclone.Utils.Constants.NAME
 import com.yz.trelloclone.databinding.ActivityMainBinding
 import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.User
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -63,6 +66,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     fun displayUserDataInDrawer(user: User) {
 
+        //Get user to use it later
+        this.user = user
+
         //Loading data to the drawer
         Glide
             .with(this)
@@ -71,14 +77,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .into(findViewById(R.id.iv_user_image))
 
         findViewById<TextView>(R.id.tv_username).text = user.name
+
         Log.e(TAG, user.name)
 
-        //Get user to use it later
-        this.user = user
+        setUserImageInToolbar()
     }
 
     private fun setUpActionBar() {
+
         val toolBar: Toolbar = findViewById(R.id.tool_bar_main)
+
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolBar.setNavigationIcon(R.drawable.ic_nav_menu)
@@ -86,6 +94,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             Log.e(TAG, "Navigation menu")
             toggleDrawer()
         }
+    }
+
+    private fun setUserImageInToolbar(){
+        Log.e(TAG, this.user.toString())
+        Glide
+            .with(this)
+            .load(user.image)
+            .centerCrop()
+            .into(findViewById(R.id.iv_toolbar_profile))
     }
 
     private fun toggleDrawer() {

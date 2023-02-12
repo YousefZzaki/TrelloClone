@@ -6,7 +6,8 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:background="@drawable/nav_header_background"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:id="@+id/nav_header_background">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_user_image"
