@@ -3,9 +3,11 @@ package com.yz.trelloclone.activities
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.webkit.MimeTypeMap
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -69,6 +71,10 @@ open class BaseActivity : AppCompatActivity() {
             findViewById(android.R.id.content),
             message, Snackbar.LENGTH_LONG).setBackgroundTint(ContextCompat.getColor(this, R.color.snackbar_error_color))
         snackBar.show()
+    }
+
+     fun getImageExtension(uri: Uri?): String? {
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
     }
 
 

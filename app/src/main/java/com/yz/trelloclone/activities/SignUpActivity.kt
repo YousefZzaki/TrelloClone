@@ -21,6 +21,7 @@ class SignUpActivity : BaseActivity() {
         setContentView(binding?.root)
         setUpToolbar()
 
+        //Cet an instance from database
         auth = FirebaseAuth.getInstance()
 
         binding?.btnSignUp?.setOnClickListener {

@@ -6,9 +6,11 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.yz.trelloclone.Utils.Constants.BOARDS
 import com.yz.trelloclone.Utils.Constants.USERS
 import com.yz.trelloclone.activities.*
 import com.yz.trelloclone.activities.BaseActivity.Companion.TAG
+import com.yz.trelloclone.models.Board
 import com.yz.trelloclone.models.User
 
 class Firestore {
@@ -16,10 +18,27 @@ class Firestore {
     private val mFirestore = FirebaseFirestore.getInstance()
 
     fun registerUser(activity: SignUpActivity, userInfo: User) {
-        //Create new collection for the database
+        //Create new collection in the database
         mFirestore.collection(USERS)
             .document(getUserUID()).set(userInfo, SetOptions.merge()).addOnSuccessListener {
                 activity.onRegisterSuccess()
+            }
+    }
+
+    fun createBoard(activity: CreateBoardActivity, board: Board){
+        //Create new collection in the database
+        mFirestore.collection(BOARDS)
+            .document()
+            .set(board, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.e(TAG, "Board created successfully")
+                Toast.makeText(activity, "Board created successfully", Toast.LENGTH_LONG).show()
+                activity.onSuccessfullyBoardCreated()
+            }.addOnFailureListener {
+                activity.hideProgressDialog()
+                Log.e(TAG, it.message.toString())
+                Toast.makeText(activity, it.message.toString(), Toast.LENGTH_LONG).show()
+
             }
     }
 

@@ -174,11 +174,6 @@ class MyProfileActivity : BaseActivity() {
                 hideProgressDialog()
             }
         }
-
-    }
-
-    private fun getImageExtension(uri: Uri?): String? {
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
     }
 
     private fun updateUserProfileData() {

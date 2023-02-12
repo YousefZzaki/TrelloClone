@@ -14,14 +14,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.yz.trelloclone.R
+import com.yz.trelloclone.Utils.Constants.NAME
 import com.yz.trelloclone.databinding.ActivityMainBinding
-import com.yz.trelloclone.databinding.MainContentBinding
 import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.User
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var binding: ActivityMainBinding? = null
+    private lateinit var user: User
 
     private var myProfileActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -51,20 +52,18 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun setFAB(){
 
-//        val addFab: FloatingActionButton = findViewById(R.id.fab_add)
-//
-//        addFab.setOnClickListener {
-//            startActivity(Intent(this, CreateBoardActivity::class.java))
-//        }
+        val fab = binding?.root?.findViewById<FloatingActionButton>(R.id.fab_add)
 
-        binding?.root?.findViewById<FloatingActionButton>(R.id.fab_add)?.setOnClickListener {
-            startActivity(Intent(this, CreateBoardActivity::class.java))
+        fab?.setOnClickListener {
+            val intent = Intent(this, CreateBoardActivity::class.java)
+            intent.putExtra(NAME, user.name)
+            startActivity(intent)
         }
-
     }
 
     fun displayUserDataInDrawer(user: User) {
 
+        //Loading data to the drawer
         Glide
             .with(this)
             .load(user.image)
@@ -73,6 +72,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         findViewById<TextView>(R.id.tv_username).text = user.name
         Log.e(TAG, user.name)
+
+        //Get user to use it later
+        this.user = user
     }
 
     private fun setUpActionBar() {
