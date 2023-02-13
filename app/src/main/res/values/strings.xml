@@ -28,4 +28,7 @@
     <string name="create_board">CREATE BOARD</string>
     <string name="board_name">Board name</string>
     <string name="create">Create</string>
+    <string name="creates_by">Creates by</string>
+    <string name="created_in">10/11</string>
+    <string name="no_boards">No boards!</string>
 </resources>

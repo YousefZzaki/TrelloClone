@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/rv_main_layout_padding"
+    android:background="?attr/selectableItemBackground"
+    android:layout_marginBottom="@dimen/rv_layout_marginBottom"
+    android:id="@+id/item_layout">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_board_image"
+        android:layout_width="@dimen/rv_board_image_size"
+        android:layout_height="@dimen/rv_board_image_size"
+        android:src="@drawable/ic_board_place_holder"
+        app:civ_border_color="@color/primary_text_color"
+        app:civ_border_width="@dimen/rv_board_image_boarder" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginStart="@dimen/rv_board_item_marginStart"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_board_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/board_name"
+                android:textColor="@color/primary_text_color"
+                android:textSize="@dimen/rv_board_name_textSize" />
+            <TextView
+                android:id="@+id/tv_created_in"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end"
+                android:text="@string/created_in"
+                android:textSize="@dimen/rv_board_created_in_textSize" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_created_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/creates_by"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -7,10 +7,12 @@ data class Board(
     val name: String = "",
     val image: String = "",
     val createdBy: String = "",
+    val createdIn: String = "",
     val assignedTo: ArrayList<String> = ArrayList()
 ): Parcelable {
 
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
@@ -21,6 +23,7 @@ data class Board(
         parcel.writeString(name)
         parcel.writeString(image)
         parcel.writeString(createdBy)
+        parcel.writeString(createdIn)
         parcel.writeStringList(assignedTo)
     }
 

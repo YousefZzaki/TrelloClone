@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -20,7 +18,6 @@ import com.yz.trelloclone.Utils.Constants.NAME
 import com.yz.trelloclone.databinding.ActivityMainBinding
 import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.User
-import de.hdodenhof.circleimageview.CircleImageView
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,6 +39,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
         binding?.navView?.setNavigationItemSelectedListener(this)
 
         setUpActionBar()
