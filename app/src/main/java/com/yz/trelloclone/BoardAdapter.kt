@@ -1,16 +1,19 @@
 package com.yz.trelloclone
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
+import com.yz.trelloclone.activities.BaseActivity.Companion.TAG
 import com.yz.trelloclone.databinding.ItemBoardRvBinding
 import com.yz.trelloclone.models.Board
 
 open class BoardAdapter(private val context: Context): RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
 
-    private val itemList = emptyList<Board>()
+    private var itemList = emptyList<Board>()
 
     private val onClickListener: OnClickListener? = null
 
@@ -36,24 +39,32 @@ open class BoardAdapter(private val context: Context): RecyclerView.Adapter<Boar
         if (holder is BoardViewHolder){
 
             holder.boardName.text = item.name
-            Glide.with(context)
-                .load(item.image)
-                .centerCrop()
-                .into(holder.boardImage)
+            if (item.image.isNotEmpty()){
+                Glide.with(context)
+                    .load(item.image)
+                    .placeholder(R.drawable.ic_board_place_holder)
+                    .centerCrop()
+                    .into(holder.boardImage)
+            }
+            Log.e(TAG, "Adapter user image${item.image}")
 
             holder.boardName.text = item.name
             holder.createdBy.text = "Created by: ${item.createdBy}"
             holder.createdIn.text = item.createdIn
 
             holder.itemLayout.setOnClickListener {
-                TODO("Go to task activity")
+                Snackbar.make(it, "Item clicked", Snackbar.LENGTH_SHORT).show()
             }
         }
 
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return itemList.size
+    }
+
+    fun setData(boardList: ArrayList<Board>){
+        itemList = boardList
     }
 
     interface OnClickListener{

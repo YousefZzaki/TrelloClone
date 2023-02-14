@@ -33,12 +33,12 @@
 
     <dimen name="create_board_btn_textSize">17sp</dimen>
 
-    <dimen name="rv_board_image_size">60dp</dimen>
+    <dimen name="rv_board_image_size">55dp</dimen>
     <dimen name="rv_main_layout_padding">10dp</dimen>
     <dimen name="rv_board_item_marginStart">10dp</dimen>
     <dimen name="rv_layout_marginBottom">10dp</dimen>
     <dimen name="rv_board_image_boarder">0.5dp</dimen>
-    <dimen name="rv_board_name_textSize">18sp</dimen>
+    <dimen name="rv_board_name_textSize">17sp</dimen>
     <dimen name="rv_board_created_by_textSize">14sp</dimen>
     <dimen name="rv_board_created_in_textSize">14sp</dimen>
     

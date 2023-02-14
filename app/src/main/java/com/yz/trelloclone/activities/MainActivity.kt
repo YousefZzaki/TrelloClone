@@ -4,19 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.yz.trelloclone.BoardAdapter
 import com.yz.trelloclone.R
 import com.yz.trelloclone.Utils.Constants.NAME
 import com.yz.trelloclone.databinding.ActivityMainBinding
 import com.yz.trelloclone.firebase.Firestore
+import com.yz.trelloclone.models.Board
 import com.yz.trelloclone.models.User
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -24,12 +29,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var binding: ActivityMainBinding? = null
     private lateinit var user: User
 
-    private var myProfileActivityLauncher =
+    private val myProfileActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if (it.resultCode == RESULT_OK){
             //Update data and to display it in the drawer
             Firestore().signInUser(this)
             Log.e(TAG, "Data has been updating")
+        }
+        else
+            Log.e(TAG, "Data not updated")
+    }
+
+    private val addBoardActivityLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == RESULT_OK){
+            getBoards()
+            Log.e(TAG, "Boards data has been updating")
         }
         else
             Log.e(TAG, "Data not updated")
@@ -49,6 +64,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //Get user data to display it in drawer
         Firestore().signInUser(this)
 
+        getBoards()
+
     }
 
     private fun setFAB(){
@@ -58,7 +75,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         fab?.setOnClickListener {
             val intent = Intent(this, CreateBoardActivity::class.java)
             intent.putExtra(NAME, user.name)
-            startActivity(intent)
+            addBoardActivityLauncher.launch(intent)
         }
     }
 
@@ -81,6 +98,29 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setUserImageInToolbar()
     }
 
+     fun addBoardsToUI(boardList: ArrayList<Board>){
+
+        val rvBoards =  binding?.root?.findViewById<RecyclerView>(R.id.rv_boards)
+        val tvNoBoards = binding?.root?.findViewById<TextView>(R.id.tv_no_boards)
+
+        if (boardList.size > 0){
+            Log.e(TAG, boardList.size.toString())
+            Log.e(TAG, "Rv found")
+            rvBoards?.visibility = View.VISIBLE
+            tvNoBoards?.visibility = View.INVISIBLE
+            rvBoards?.setHasFixedSize(true)
+            rvBoards?.layoutManager = LinearLayoutManager(this)
+            val adapter = BoardAdapter(this)
+            adapter.setData(boardList)
+            rvBoards?.adapter = adapter
+        }else{
+            rvBoards?.visibility = View.GONE
+            tvNoBoards?.visibility = View.VISIBLE
+        }
+
+       hideProgressDialog()
+    }
+
     private fun setUpActionBar() {
 
         val toolBar: Toolbar = findViewById(R.id.tool_bar_main)
@@ -92,6 +132,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             Log.e(TAG, "Navigation menu")
             toggleDrawer()
         }
+    }
+
+    private fun getBoards(){
+        showProgressDialog()
+        Firestore().getBoardList(this)
     }
 
     private fun setUserImageInToolbar(){

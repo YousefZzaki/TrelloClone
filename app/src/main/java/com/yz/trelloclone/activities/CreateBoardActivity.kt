@@ -60,11 +60,15 @@ class CreateBoardActivity : BaseActivity() {
         }
 
         binding?.btnCreateBoard?.setOnClickListener {
-            if (selectedImageFileUri != null){
+            showProgressDialog()
+
+            if (selectedImageFileUri != null) {
                 uploadImageToStorage()
-            }else{
+                Log.e(TAG, "Upload image")
+            } else {
                 createBoard()
             }
+            setResult(RESULT_OK)
         }
 
     }
@@ -76,9 +80,13 @@ class CreateBoardActivity : BaseActivity() {
         val board = Board(
             binding?.etBoardName?.text?.toString()!!,
             boardImageURL,
-            getCurrentUserId(),
-            assignedTo
+            userName,
+            "",
+            assignedTo,
         )
+
+        Log.e(TAG, "User name in create board $userName")
+        Log.e(TAG, "Image uri in create board $boardImageURL")
 
         Firestore().createBoard(this, board)
     }
@@ -96,15 +104,15 @@ class CreateBoardActivity : BaseActivity() {
 
             //Try to upload image to the storage
             storageReference.putFile(selectedImageFileUri!!).addOnSuccessListener { snapshot ->
-                createBoard()
                 val imageUri = snapshot.metadata?.reference?.downloadUrl.toString()
                 Log.i(TAG, "Image uri: $imageUri")
 
-                var imageDownloadableUrl: Uri?
-                    snapshot?.metadata?.reference?.downloadUrl?.addOnSuccessListener {
-                        imageDownloadableUrl = it
-                    Log.i(TAG, "Image downloadable Url: $imageDownloadableUrl")
+                snapshot?.metadata?.reference?.downloadUrl?.addOnSuccessListener {
+                    boardImageURL = it.toString()
+                    Log.i(TAG, "Image downloadable Url: $boardImageURL")
+                    Log.i(TAG, "Image downloadable Url: $it")
                     Toast.makeText(this, "Uploading image successfully", Toast.LENGTH_LONG).show()
+                    createBoard()
                 }
 
             }.addOnFailureListener {
