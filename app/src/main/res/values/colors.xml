@@ -9,6 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="colorPrimary">#0A80F5</color>
+    <color name="lightBlue">#0BCCEB</color>
+
+    <color name="colorAccent">#0C90F1</color>
+
 
     <color name="primary_text_color">#363A43</color>
     <color name="secondary_text_color">#7A8089</color>
@@ -22,5 +26,6 @@
 
     <color name="task_list_action_color">#F7F6FA</color>
     <color name="task_list_title_view_bg_color">#F8F8F8</color>
+
 
 </resources>

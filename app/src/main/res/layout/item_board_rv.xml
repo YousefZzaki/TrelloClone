@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="?attr/selectableItemBackground"
     android:layout_marginBottom="@dimen/rv_layout_marginBottom"
-    android:id="@+id/item_layout">
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
-        >
+        android:padding="10dp">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_board_image"
             android:layout_width="@dimen/rv_board_image_size"
@@ -25,9 +25,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:layout_marginStart="@dimen/rv_board_item_marginStart"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -41,6 +41,7 @@
                     android:text="@string/board_name"
                     android:textColor="@color/primary_text_color"
                     android:textSize="@dimen/rv_board_name_textSize" />
+
                 <TextView
                     android:id="@+id/tv_created_in"
                     android:layout_width="match_parent"
@@ -49,11 +50,12 @@
                     android:text="@string/created_in"
                     android:textSize="@dimen/rv_board_created_in_textSize" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_created_by"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/creates_by"/>
+                android:text="@string/creates_by" />
         </LinearLayout>
     </LinearLayout>
 

@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.toObject
 import com.yz.trelloclone.Utils.Constants.ASSIGNED_TO
 import com.yz.trelloclone.Utils.Constants.BOARDS
 import com.yz.trelloclone.Utils.Constants.USERS
@@ -53,11 +54,27 @@ class Firestore: BaseActivity(){
                 for (item in snapshot.documents){
                     val board = item.toObject(Board::class.java)!!
                     board.documentId = item.id
+                    Log.e(TAG, "doc: ${item.id}")
+                    Log.e(TAG, "doc: ${board.documentId}")
                     boardList.add(board)
                 }
                 activity.addBoardsToUI(boardList)
+                Log.e(TAG, "get board${boardList[0]}")
             }.addOnFailureListener{
                 activity.hideProgressDialog()
+                Log.e(TAG, it.message.toString())
+            }
+    }
+
+    fun getBoardDetails(activity: TaskListActivity, boardId: String){
+        mFirestore.collection(BOARDS)
+            .document(boardId)
+            .get()
+            .addOnSuccessListener { document ->
+                Log.e(TAG, "board details: ${document.toObject(Board::class.java)!!}")
+                activity.getBoardFromDB(document.toObject(Board::class.java)!!)
+            }
+            .addOnFailureListener {
                 Log.e(TAG, it.message.toString())
             }
     }

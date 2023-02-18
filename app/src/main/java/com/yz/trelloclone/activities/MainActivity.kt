@@ -16,8 +16,9 @@ import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.yz.trelloclone.BoardAdapter
+import com.yz.trelloclone.adapters.BoardAdapter
 import com.yz.trelloclone.R
+import com.yz.trelloclone.Utils.Constants.DOCUMENT_ID
 import com.yz.trelloclone.Utils.Constants.NAME
 import com.yz.trelloclone.databinding.ActivityMainBinding
 import com.yz.trelloclone.firebase.Firestore
@@ -104,15 +105,22 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val tvNoBoards = binding?.root?.findViewById<TextView>(R.id.tv_no_boards)
 
         if (boardList.size > 0){
-            Log.e(TAG, boardList.size.toString())
-            Log.e(TAG, "Rv found")
+            Log.e(TAG, "Board list size: ${boardList.size.toString()}")
             rvBoards?.visibility = View.VISIBLE
             tvNoBoards?.visibility = View.INVISIBLE
-            rvBoards?.setHasFixedSize(true)
             rvBoards?.layoutManager = LinearLayoutManager(this)
+            rvBoards?.setHasFixedSize(true)
             val adapter = BoardAdapter(this)
             adapter.setData(boardList)
             rvBoards?.adapter = adapter
+            adapter.setOnClickListener(object : BoardAdapter.OnClickListener{
+                override fun onClick(position: Int, board: Board) {
+                    val intent = Intent(this@MainActivity, TaskListActivity::class.java)
+                    Log.e(TAG, "selected board id: ${board.documentId}")
+                    intent.putExtra(DOCUMENT_ID, board.documentId)
+                    startActivity(intent)
+                }
+            })
         }else{
             rvBoards?.visibility = View.GONE
             tvNoBoards?.visibility = View.VISIBLE

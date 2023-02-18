@@ -10,7 +10,6 @@
     tools:context=".activities.MainActivity"
     android:background="@color/white">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_boards"
         android:layout_width="match_parent"

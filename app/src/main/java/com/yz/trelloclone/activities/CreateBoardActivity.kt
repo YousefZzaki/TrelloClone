@@ -16,6 +16,9 @@ import com.yz.trelloclone.Utils.Constants.NAME
 import com.yz.trelloclone.databinding.ActivityCreateBoardBinding
 import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.Board
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CreateBoardActivity : BaseActivity() {
 
@@ -73,6 +76,12 @@ class CreateBoardActivity : BaseActivity() {
 
     }
 
+    private fun getTime(): String{
+        val date = Date()
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return sdf.format(date)
+    }
+
     private fun createBoard() {
         showProgressDialog()
         val assignedTo: ArrayList<String> = ArrayList()
@@ -81,7 +90,7 @@ class CreateBoardActivity : BaseActivity() {
             binding?.etBoardName?.text?.toString()!!,
             boardImageURL,
             userName,
-            "",
+            getTime(),
             assignedTo,
         )
 
@@ -131,7 +140,6 @@ class CreateBoardActivity : BaseActivity() {
     private fun setupToolBar() {
         setSupportActionBar(binding?.tbCreateBoard)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        binding?.tbCreateBoard?.title = resources.getString(R.string.create_board)
         binding?.tbCreateBoard?.setNavigationIcon(R.drawable.ic_arrow_back)
         binding?.tbCreateBoard?.setNavigationOnClickListener {
             onBackPressed()

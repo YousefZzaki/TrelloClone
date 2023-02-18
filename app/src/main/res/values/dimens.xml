@@ -40,8 +40,27 @@
     <dimen name="rv_board_image_boarder">0.5dp</dimen>
     <dimen name="rv_board_name_textSize">17sp</dimen>
     <dimen name="rv_board_created_by_textSize">14sp</dimen>
-    <dimen name="rv_board_created_in_textSize">14sp</dimen>
+    <dimen name="rv_board_created_in_textSize">12sp</dimen>
     
     <dimen name="no_board_textSize">17sp</dimen>
+
+    <dimen name="task_item_cv_elevation">5dp</dimen>
+    <dimen name="task_item_add_item_text_padding">12dp</dimen>
+    <dimen name="task_item_add_item_text_size">18sp</dimen>
+    <dimen name="task_item_cv_margin">5dp</dimen>
+    <dimen name="task_item_cv_corner_radius">5dp</dimen>
+    <dimen name="task_item_image_buttons_padding">10dp</dimen>
+    <dimen name="task_item_title_view_elevation">10dp</dimen>
+    <dimen name="task_item_title_text_padding">10dp</dimen>
+    <dimen name="task_item_title_text_size">17sp</dimen>
+    <dimen name="task_item_divider_height">0.5dp</dimen>
+    <dimen name="task_item_rv_card_list_margin">5dp</dimen>
+    <dimen name="task_item_add_card_text_elevation">10dp</dimen>
+
+    <string name="action_add_list">Add List</string>
+    <string name="hint_list_name">List Name</string>
+    <string name="action_add_card">Add Card</string>
+    <string name="hint_card_name">Card Name</string>
+    <string name="add_list">Add List</string>
 
 </resources>

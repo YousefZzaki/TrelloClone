@@ -58,10 +58,12 @@
                         android:layout_marginTop="@dimen/my_profile_til_main_marginTop"
                         android:layout_marginEnd="@dimen/my_profile_screen_content_marginStartEnd"
                         android:inputType="textPersonName"
+                        android:focusedByDefault="false"
+                        android:defaultFocusHighlightEnabled="false"
                         android:autofillHints="name"
+                        android:theme="@style/EditTextTheme"
                         android:hint="@string/name"
                         android:textCursorDrawable="@color/colorPrimary"
-                        android:backgroundTint="@color/colorPrimary"
                         />
 
                 <EditText
@@ -76,7 +78,7 @@
                     android:autofillHints="emailAddress"
                     android:hint="@string/e_mail"
                     android:textCursorDrawable="@color/colorPrimary"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:theme="@style/EditTextTheme"
                     />
                 <EditText
                     android:id="@+id/et_mobile"
@@ -90,7 +92,7 @@
                     android:autofillHints="phone"
                     android:hint="@string/phone_number"
                     android:textCursorDrawable="@color/colorPrimary"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:theme="@style/EditTextTheme"
                     />
                 <Button
                     android:id="@+id/btn_update"

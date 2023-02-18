@@ -18,9 +18,12 @@
         android:theme="@style/Theme.TrelloClone"
         tools:targetApi="31">
         <activity
+            android:name=".activities.TaskListActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.CreateBoardActivity"
             android:exported="false"
-            android:theme="@style/Theme.NoActionBar"/>
+            android:theme="@style/Theme.NoActionBar" />
         <activity
             android:name=".activities.MyProfileActivity"
             android:exported="false"
@@ -44,8 +47,8 @@
         <activity
             android:name=".activities.SplashScreenActivity"
             android:exported="true"
-            android:theme="@style/Theme.splashScreen"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.splashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

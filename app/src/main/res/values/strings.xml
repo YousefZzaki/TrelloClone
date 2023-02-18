@@ -31,4 +31,9 @@
     <string name="creates_by">Creates by</string>
     <string name="created_in">10/11</string>
     <string name="no_boards">No boards!</string>
+    <string name="image_contentDescription">Image</string>
+    <string name="list_name">List name</string>
+    <string name="title">Title</string>
+    <string name="card_name">Card name</string>
+    <string name="add_card">Add Card</string>
 </resources>
