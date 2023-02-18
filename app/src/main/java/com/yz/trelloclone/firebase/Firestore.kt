@@ -9,6 +9,7 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
 import com.yz.trelloclone.Utils.Constants.ASSIGNED_TO
 import com.yz.trelloclone.Utils.Constants.BOARDS
+import com.yz.trelloclone.Utils.Constants.TASK_LIST
 import com.yz.trelloclone.Utils.Constants.USERS
 import com.yz.trelloclone.activities.*
 import com.yz.trelloclone.activities.BaseActivity.Companion.TAG
@@ -72,7 +73,9 @@ class Firestore: BaseActivity(){
             .get()
             .addOnSuccessListener { document ->
                 Log.e(TAG, "board details: ${document.toObject(Board::class.java)!!}")
-                activity.getBoardFromDB(document.toObject(Board::class.java)!!)
+                val board = document.toObject(Board::class.java)!!
+                board.documentId = document.id
+                activity.getBoardFromDB(board)
             }
             .addOnFailureListener {
                 Log.e(TAG, it.message.toString())
@@ -121,6 +124,22 @@ class Firestore: BaseActivity(){
                     it.message.toString(),
                     Toast.LENGTH_LONG
                 ).show()
+            }
+    }
+
+    fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+        val hashMap = HashMap<String, Any>()
+        hashMap[TASK_LIST] = board.taskList
+
+        mFirestore.collection(BOARDS)
+            .document(board.documentId)
+            .update(hashMap)
+            .addOnSuccessListener {
+                Log.e(TAG, "Task added/updated successfully")
+                activity.onAddUpdateTaskList()
+            }
+            .addOnFailureListener {
+                Log.e(TAG, "Failed to add task: $it")
             }
     }
 

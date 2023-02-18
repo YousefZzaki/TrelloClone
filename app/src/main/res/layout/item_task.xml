@@ -59,6 +59,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:theme="@style/EditTextTheme"
                     android:autofillHints="@string/hint_list_name"
                     android:hint="@string/hint_list_name"
                     android:inputType="text" />
@@ -159,6 +160,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:theme="@style/EditTextTheme"
                         android:autofillHints="@string/hint_list_name"
                         android:hint="@string/hint_list_name"
                         android:inputType="text" />
