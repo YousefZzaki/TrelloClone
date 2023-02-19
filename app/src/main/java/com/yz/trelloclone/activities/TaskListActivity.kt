@@ -28,7 +28,7 @@ class TaskListActivity : BaseActivity() {
         getBoardId()
     }
 
-    private fun setupToolbar(){
+    private fun setupToolbar() {
         setSupportActionBar(binding?.taskListToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding?.taskListToolbar?.setNavigationIcon(R.drawable.ic_arrow_back)
@@ -36,22 +36,26 @@ class TaskListActivity : BaseActivity() {
             onBackPressed()
         }
         binding?.taskListToolbar?.title = boardDetails.name
-        binding?.taskListToolbar?.setTitleTextColor(ContextCompat.getColor(this,
-            R.color.divider_color))
+        binding?.taskListToolbar?.setTitleTextColor(
+            ContextCompat.getColor(
+                this,
+                R.color.divider_color
+            )
+        )
 
     }
 
-    private fun getBoardId(){
+    private fun getBoardId() {
         showProgressDialog()
         val boardId: String
-        if (intent.hasExtra(DOCUMENT_ID)){
+        if (intent.hasExtra(DOCUMENT_ID)) {
             boardId = intent.getStringExtra(DOCUMENT_ID).toString()
 
             Firestore().getBoardDetails(this, boardId)
         }
     }
 
-    fun getBoardFromDB(board: Board){
+    fun getBoardFromDB(board: Board) {
 
         boardDetails = board
 
@@ -65,7 +69,8 @@ class TaskListActivity : BaseActivity() {
         binding?.rvTaskList?.layoutManager =
             LinearLayoutManager(
                 this,
-                LinearLayoutManager.HORIZONTAL, false)
+                LinearLayoutManager.HORIZONTAL, false
+            )
 
         binding?.rvTaskList?.setHasFixedSize(false)
 
@@ -76,21 +81,41 @@ class TaskListActivity : BaseActivity() {
         hideProgressDialog()
     }
 
-    fun onAddUpdateTaskList(){
+    fun onAddUpdateTaskList() {
         hideProgressDialog()
 
         showProgressDialog()
         Firestore().getBoardDetails(this, boardDetails.documentId)
     }
 
-    fun createTaskList(taskName: String){
+    fun updateTaskName(position: Int, newTitle: String, model: Task) {
+        val task = Task(newTitle, model.createdBy)
+        boardDetails.taskList[position] = task
+        boardDetails.taskList.removeAt(boardDetails.taskList.size - 1)
+
+        //Update the board in database after the new changes
+        Firestore().addUpdateTaskList(this, boardDetails)
+    }
+
+    fun deleteTask(position: Int) {
+
+        boardDetails.taskList.removeAt(position)
+
+        boardDetails.taskList.removeAt(boardDetails.taskList.size - 1)
+
+        //Update the board in database after the new changes
+        Firestore().addUpdateTaskList(this, boardDetails)
+
+    }
+
+    fun createTaskList(taskName: String) {
 
         val task = Task(taskName, Firestore().getUserUID())
 
         Log.e(TAG, "Board from db $boardDetails")
 
         boardDetails.taskList.add(0, task)
-        boardDetails.taskList.removeAt(boardDetails.taskList.size -1)
+        boardDetails.taskList.removeAt(boardDetails.taskList.size - 1)
 
         showProgressDialog()
         Firestore().addUpdateTaskList(this, boardDetails)

@@ -36,4 +36,8 @@
     <string name="title">Title</string>
     <string name="card_name">Card name</string>
     <string name="add_card">Add Card</string>
+    <string name="deleting_item">Deleting item</string>
+    <string name="are_you_sure_to_delete">Are you sure to delete</string>
+    <string name="cancel">CANCEL</string>
+    <string name="delete">DELETE</string>
 </resources>
