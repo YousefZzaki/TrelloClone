@@ -1,17 +1,21 @@
 package com.yz.trelloclone.activities
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yz.trelloclone.R
+import com.yz.trelloclone.Utils.Constants.BOARD_DETAILS
 import com.yz.trelloclone.Utils.Constants.DOCUMENT_ID
 import com.yz.trelloclone.adapters.TaskListAdapter
 import com.yz.trelloclone.databinding.ActivityTaskListBinding
 import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.Board
+import com.yz.trelloclone.models.Card
 import com.yz.trelloclone.models.Task
 
 class TaskListActivity : BaseActivity() {
@@ -31,7 +35,7 @@ class TaskListActivity : BaseActivity() {
     private fun setupToolbar() {
         setSupportActionBar(binding?.taskListToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding?.taskListToolbar?.setNavigationIcon(R.drawable.ic_arrow_back)
+        binding?.taskListToolbar?.setNavigationIcon(R.drawable.ic_arrow_back_white)
         binding?.taskListToolbar?.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -39,7 +43,7 @@ class TaskListActivity : BaseActivity() {
         binding?.taskListToolbar?.setTitleTextColor(
             ContextCompat.getColor(
                 this,
-                R.color.divider_color
+                R.color.white
             )
         )
 
@@ -63,8 +67,9 @@ class TaskListActivity : BaseActivity() {
 
         setupToolbar()
 
-        val task1 = Task("Task 1")
-        board.taskList.add(task1)
+        //Initial task to making first task appear
+        val initTask = Task("Initial task")
+        board.taskList.add(initTask)
 
         binding?.rvTaskList?.layoutManager =
             LinearLayoutManager(
@@ -108,6 +113,17 @@ class TaskListActivity : BaseActivity() {
 
     }
 
+    fun addCard(position: Int, cardName: String){
+
+        val assignedTo = ArrayList<String>()
+        assignedTo.add(getCurrentUserId())
+
+        val card = Card(cardName, getCurrentUserId(), assignedTo)
+        boardDetails.taskList[position].taskCards.add(card)
+
+        Firestore().addUpdateTaskList(this, boardDetails)
+    }
+
     fun createTaskList(taskName: String) {
 
         val task = Task(taskName, Firestore().getUserUID())
@@ -119,5 +135,23 @@ class TaskListActivity : BaseActivity() {
 
         showProgressDialog()
         Firestore().addUpdateTaskList(this, boardDetails)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.members_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.members_menu -> {
+                val intent = Intent(this, MembersActivity::class.java)
+                intent.putExtra(BOARD_DETAILS, boardDetails)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

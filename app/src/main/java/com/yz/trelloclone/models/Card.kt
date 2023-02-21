@@ -3,34 +3,34 @@ package com.yz.trelloclone.models
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Task(
-    val taskTitle: String = "",
+data class Card(
+    val cardTitle: String = "",
     val createdBy: String = "",
-    val taskCards: ArrayList<Card> = ArrayList()
-): Parcelable {
+    val assignedTo: ArrayList<String> = ArrayList()
+):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.createTypedArrayList(Card.CREATOR)!!
+        parcel.createStringArrayList()!!
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(taskTitle)
+        parcel.writeString(cardTitle)
         parcel.writeString(createdBy)
-        parcel.writeTypedList(taskCards)
+        parcel.writeStringList(assignedTo)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Task> {
-        override fun createFromParcel(parcel: Parcel): Task {
-            return Task(parcel)
+    companion object CREATOR : Parcelable.Creator<Card> {
+        override fun createFromParcel(parcel: Parcel): Card {
+            return Card(parcel)
         }
 
-        override fun newArray(size: Int): Array<Task?> {
+        override fun newArray(size: Int): Array<Card?> {
             return arrayOfNulls(size)
         }
     }
