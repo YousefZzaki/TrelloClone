@@ -24,14 +24,13 @@ data class Board(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel){
-        parcel.writeString(documentId)
         parcel.writeString(name)
         parcel.writeString(image)
         parcel.writeString(createdBy)
         parcel.writeString(createdIn)
         parcel.writeStringList(assignedTo)
+        parcel.writeString(documentId)
         parcel.writeTypedList(taskList)
-
     }
 
     override fun describeContents(): Int {

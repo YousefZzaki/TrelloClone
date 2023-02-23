@@ -1,5 +1,6 @@
 package com.yz.trelloclone.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -91,8 +92,9 @@ class SignUpActivity : BaseActivity() {
 
     fun onRegisterSuccess(){
         hideProgressDialog()
-        auth.signOut()
-        finish()
+//        auth.signOut()
+//        finish()
+        startActivity(Intent(this, MainActivity::class.java))
         Toast.makeText(this, "Successfully registering", Toast.LENGTH_SHORT).show()
     }
 

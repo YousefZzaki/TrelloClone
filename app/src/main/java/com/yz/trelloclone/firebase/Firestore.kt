@@ -7,8 +7,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
+import com.yz.trelloclone.R
 import com.yz.trelloclone.Utils.Constants.ASSIGNED_TO
 import com.yz.trelloclone.Utils.Constants.BOARDS
+import com.yz.trelloclone.Utils.Constants.DOCUMENT_ID
+import com.yz.trelloclone.Utils.Constants.EMAIL
+import com.yz.trelloclone.Utils.Constants.ID
 import com.yz.trelloclone.Utils.Constants.TASK_LIST
 import com.yz.trelloclone.Utils.Constants.USERS
 import com.yz.trelloclone.activities.*
@@ -60,7 +64,7 @@ class Firestore: BaseActivity(){
                     boardList.add(board)
                 }
                 activity.addBoardsToUI(boardList)
-                Log.e(TAG, "get board${boardList[0]}")
+
             }.addOnFailureListener{
                 activity.hideProgressDialog()
                 Log.e(TAG, it.message.toString())
@@ -128,6 +132,7 @@ class Firestore: BaseActivity(){
     }
 
     fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+
         val hashMap = HashMap<String, Any>()
         hashMap[TASK_LIST] = board.taskList
 
@@ -160,6 +165,64 @@ class Firestore: BaseActivity(){
                 document.toObject(User::class.java)!!.let { user ->
                     activity.setUserData(user)
                 }
+            }
+    }
+
+    fun getAssignedUsers(activity: MembersActivity, assignedTo: ArrayList<String>){
+        activity.showProgressDialog()
+        mFirestore.collection(USERS)
+            .whereIn(ID, assignedTo)
+            .get().addOnSuccessListener { result ->
+                Log.e(TAG, "Assigned users: ${result.documents}")
+                val users = ArrayList<User>()
+                for (i in result.documents){
+                    val  user = i.toObject(User::class.java)!!
+                    users.add(user)
+                }
+                Log.e(TAG, "users $users")
+                activity.setupRecyclerView(users)
+            }.addOnFailureListener {
+                activity.hideProgressDialog()
+                Log.e(TAG, "Failed to get members ${it.message}")
+            }
+
+    }
+
+    fun getMemberDetails(activity: MembersActivity, email: String){
+        mFirestore.collection(USERS)
+            .whereEqualTo(EMAIL, email)
+            .get()
+            .addOnSuccessListener { result ->
+                if (!result.isEmpty){
+                    val user = result.documents[0].toObject(User::class.java)!!
+                    activity.memberDetails(user)
+                }
+                else{
+                    activity.hideProgressDialog()
+                    activity.showErrorSnackBar("No such user found")
+                }
+            }.addOnFailureListener {
+                activity.hideProgressDialog()
+                Log.e(TAG, it.message.toString())
+            }
+    }
+
+    fun assignMemberToBoard(
+        activity: MembersActivity,
+        board: Board,
+        user: User
+    ){
+        val assignedMemberHashMap = HashMap<String, Any>()
+        assignedMemberHashMap[ASSIGNED_TO] = board.assignedTo
+        mFirestore.collection(BOARDS)
+            .document(board.documentId)
+            .update(assignedMemberHashMap)
+            .addOnSuccessListener {
+                activity.onAssignMemberSuccess(user)
+            }
+            .addOnFailureListener {
+                activity.hideProgressDialog()
+                Log.e(TAG, it.message.toString())
             }
     }
 }

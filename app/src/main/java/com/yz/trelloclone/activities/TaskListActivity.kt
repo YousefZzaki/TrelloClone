@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yz.trelloclone.R
@@ -22,6 +24,17 @@ class TaskListActivity : BaseActivity() {
 
     private var binding: ActivityTaskListBinding? = null
     private lateinit var boardDetails: Board
+
+    private val membersActivityResult : ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+            if (result.resultCode == RESULT_OK){
+                showProgressDialog()
+                Firestore().getBoardDetails(this, boardDetails.documentId)
+                Log.e(TAG, "Changes made")
+            }
+            else
+                Log.e(TAG, "No changes made")
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,8 +161,9 @@ class TaskListActivity : BaseActivity() {
         when(item.itemId){
             R.id.members_menu -> {
                 val intent = Intent(this, MembersActivity::class.java)
+                Log.e(TAG, "Task list board : $boardDetails")
                 intent.putExtra(BOARD_DETAILS, boardDetails)
-                startActivity(intent)
+                membersActivityResult.launch(intent)
             }
         }
         return super.onOptionsItemSelected(item)

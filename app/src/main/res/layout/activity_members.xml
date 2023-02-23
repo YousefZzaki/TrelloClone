@@ -11,6 +11,7 @@
         android:id="@+id/abl_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -39,8 +40,10 @@
             app:cardCornerRadius="@dimen/members_activity_cv_cornerRadius">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_members"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                tools:listitem="@layout/member_item"
                 android:padding="@dimen/members_activity_rv_padding"/>
 
         </androidx.cardview.widget.CardView>

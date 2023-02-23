@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/rv_board_item_marginStart"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="@dimen/rv_board_ll_info_padding">
 
             <LinearLayout
                 android:layout_width="match_parent"
