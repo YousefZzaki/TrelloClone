@@ -6,17 +6,13 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.ktx.toObject
-import com.yz.trelloclone.R
 import com.yz.trelloclone.Utils.Constants.ASSIGNED_TO
 import com.yz.trelloclone.Utils.Constants.BOARDS
-import com.yz.trelloclone.Utils.Constants.DOCUMENT_ID
 import com.yz.trelloclone.Utils.Constants.EMAIL
 import com.yz.trelloclone.Utils.Constants.ID
 import com.yz.trelloclone.Utils.Constants.TASK_LIST
 import com.yz.trelloclone.Utils.Constants.USERS
 import com.yz.trelloclone.activities.*
-import com.yz.trelloclone.activities.BaseActivity.Companion.TAG
 import com.yz.trelloclone.models.Board
 import com.yz.trelloclone.models.User
 
