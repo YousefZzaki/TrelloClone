@@ -90,4 +90,17 @@
     <dimen name="member_dialog_action_button_padding">10dp</dimen>
     <dimen name="member_dialog_action_button_text_size">18sp</dimen>
 
+    <dimen name="card_details_cv_card_name_marginBottom">10dp</dimen>
+    <dimen name="item_label_color_height">40dp</dimen>
+    <dimen name="item_label_color_margin">5dp</dimen>
+    <dimen name="item_label_color_selected_image_marginEnd">10dp</dimen>
+    <dimen name="dialog_list_cv_elevation_and_corner_radius">3dp</dimen>
+    <dimen name="dialog_list_content_padding">10dp</dimen>
+    <dimen name="dialog_list_title_padding">5dp</dimen>
+    <dimen name="dialog_list_title_text_size">18sp</dimen>
+    <dimen name="dialog_list_divider_height">1dp</dimen>
+    <dimen name="dialog_list_marginTopBottom">3dp</dimen>
+
+    <dimen name="item_selected_member_image_size">45dp</dimen>
+
 </resources>

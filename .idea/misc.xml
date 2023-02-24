@@ -6,6 +6,7 @@
         <entry key="..\:/Users/youse/.gradle/caches/transforms-3/eb35663b5539d6778f910f163f800d7d/transformed/appcompat-1.5.1/res/drawable/abc_btn_borderless_material.xml" value="0.1475" />
         <entry key="..\:/Users/youse/.gradle/caches/transforms-3/eb35663b5539d6778f910f163f800d7d/transformed/appcompat-1.5.1/res/drawable/abc_btn_default_mtrl_shape.xml" value="0.1475" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/button_background.xml" value="0.1505" />
+        <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/dialog_strok.xml" value="0.1435" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/edit_text_background.xml" value="0.1315" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/edite_text_background.xml" value="0.1165" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/ic_add.xml" value="0.21" />
@@ -36,7 +37,9 @@
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/custom_alert_dialog.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/custom_prgress_bar.xml" value="0.22" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/delete_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/dialog_color_list.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_board_rv.xml" value="0.25" />
+        <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_lable_color.xml" value="0.19746376811594202" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_task.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/main_content.xml" value="0.22" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/member_item.xml" value="0.25" />
