@@ -20,6 +20,7 @@
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout-v23/activity_intro.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout-v23/activity_my_profile.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout-v26/activity_my_profile.xml" value="0.25" />
+        <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/activity_card_details.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/activity_create_board.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/activity_intro.xml" value="0.22" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/activity_main.xml" value="0.22" />
@@ -34,6 +35,7 @@
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/card_item.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/custom_alert_dialog.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/custom_prgress_bar.xml" value="0.22" />
+        <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/delete_dialog.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_board_rv.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_task.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/main_content.xml" value="0.22" />
@@ -41,6 +43,7 @@
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/members_dialog.xml" value="0.4560669456066946" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/nav_header_main.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/menu/add_member_menu.xml" value="0.25" />
+        <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/menu/delete_card_menu.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/menu/drawer_menu.xml" value="0.20260416666666667" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/menu/members_menu.xml" value="0.20260416666666667" />
       </map>

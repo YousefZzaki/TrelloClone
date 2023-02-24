@@ -45,7 +45,7 @@
 
     <style name="EditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorControlNormal">@color/secondary_text_color</item>
-        <item name="colorControlActivated">@color/lightBlue</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
 <!--        <item name="colorControlHighlight">@color/snackbar_error_color</item>-->
     </style>
 

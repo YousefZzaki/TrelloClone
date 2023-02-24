@@ -17,4 +17,7 @@ object Constants {
     const val MOBILE = "mobile"
 
     const val BOARD_DETAILS = "board_details"
+
+    const val TASK_POSITION = "task_position"
+    const val CARD_POSITION = "card_position"
 }

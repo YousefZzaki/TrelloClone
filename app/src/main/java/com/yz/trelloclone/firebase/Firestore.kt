@@ -16,7 +16,7 @@ import com.yz.trelloclone.activities.*
 import com.yz.trelloclone.models.Board
 import com.yz.trelloclone.models.User
 
-class Firestore: BaseActivity(){
+class Firestore : BaseActivity() {
 
     private val mFirestore = FirebaseFirestore.getInstance()
 
@@ -28,7 +28,7 @@ class Firestore: BaseActivity(){
             }
     }
 
-    fun createBoard(activity: CreateBoardActivity, board: Board){
+    fun createBoard(activity: CreateBoardActivity, board: Board) {
         //Create new collection in the database
         mFirestore.collection(BOARDS)
             .document()
@@ -45,14 +45,14 @@ class Firestore: BaseActivity(){
             }
     }
 
-    fun getBoardList(activity: MainActivity){
+    fun getBoardList(activity: MainActivity) {
         mFirestore.collection(BOARDS)
             .whereArrayContains(ASSIGNED_TO, getCurrentUserId())
             .get()
             .addOnSuccessListener { snapshot ->
                 Log.e(TAG, "Boards : ${snapshot.documents}")
                 val boardList: ArrayList<Board> = ArrayList()
-                for (item in snapshot.documents){
+                for (item in snapshot.documents) {
                     val board = item.toObject(Board::class.java)!!
                     board.documentId = item.id
                     Log.e(TAG, "doc: ${item.id}")
@@ -61,13 +61,13 @@ class Firestore: BaseActivity(){
                 }
                 activity.addBoardsToUI(boardList)
 
-            }.addOnFailureListener{
+            }.addOnFailureListener {
                 activity.hideProgressDialog()
                 Log.e(TAG, it.message.toString())
             }
     }
 
-    fun getBoardDetails(activity: TaskListActivity, boardId: String){
+    fun getBoardDetails(activity: TaskListActivity, boardId: String) {
         mFirestore.collection(BOARDS)
             .document(boardId)
             .get()
@@ -86,20 +86,27 @@ class Firestore: BaseActivity(){
         mFirestore.collection(USERS)
             .document(getUserUID()).get().addOnSuccessListener { document ->
                 val loggedUser = document.toObject(User::class.java)!!
-                    when (activity) {
-                        is SignInActivity -> {
-                            activity.onSigInSuccess(loggedUser)
-                            Log.e(TAG, "Successfully signingIn")
-                        }
-                        is MainActivity -> {
-                            activity.displayUserDataInDrawer(loggedUser)
-                        }
-
+                when (activity) {
+                    is SignInActivity -> {
+                        activity.onSigInSuccess(loggedUser)
+                        Log.e(TAG, "Successfully signingIn")
+                    }
+                    is MainActivity -> {
+                        activity.displayUserDataInDrawer(loggedUser)
                     }
 
+                }
+
             }.addOnFailureListener {
-                BaseActivity().hideProgressDialog()
-                Log.e(TAG, "Signing in fail")
+                when (activity) {
+                    is SignInActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                    is MainActivity -> {
+                        activity.hideProgressDialog()
+                    }
+                }
+                Log.e(TAG, it.message.toString())
             }
     }
 
@@ -127,7 +134,7 @@ class Firestore: BaseActivity(){
             }
     }
 
-    fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+    fun addUpdateTaskList(activity: Activity, board: Board) {
 
         val hashMap = HashMap<String, Any>()
         hashMap[TASK_LIST] = board.taskList
@@ -136,8 +143,16 @@ class Firestore: BaseActivity(){
             .document(board.documentId)
             .update(hashMap)
             .addOnSuccessListener {
-                Log.e(TAG, "Task added/updated successfully")
-                activity.onAddUpdateTaskList()
+                when(activity){
+                    is TaskListActivity -> {
+                        Log.e(TAG, "Task added/updated successfully")
+                        activity.onAddUpdateTaskList()
+                    }
+                    is CardDetailsActivity ->{
+                        activity.onAddUpdateTaskList()
+                    }
+                }
+
             }
             .addOnFailureListener {
                 Log.e(TAG, "Failed to add task: $it")
@@ -164,15 +179,15 @@ class Firestore: BaseActivity(){
             }
     }
 
-    fun getAssignedUsers(activity: MembersActivity, assignedTo: ArrayList<String>){
+    fun getAssignedUsers(activity: MembersActivity, assignedTo: ArrayList<String>) {
         activity.showProgressDialog()
         mFirestore.collection(USERS)
             .whereIn(ID, assignedTo)
             .get().addOnSuccessListener { result ->
                 Log.e(TAG, "Assigned users: ${result.documents}")
                 val users = ArrayList<User>()
-                for (i in result.documents){
-                    val  user = i.toObject(User::class.java)!!
+                for (i in result.documents) {
+                    val user = i.toObject(User::class.java)!!
                     users.add(user)
                 }
                 Log.e(TAG, "users $users")
@@ -184,16 +199,15 @@ class Firestore: BaseActivity(){
 
     }
 
-    fun getMemberDetails(activity: MembersActivity, email: String){
+    fun getMemberDetails(activity: MembersActivity, email: String) {
         mFirestore.collection(USERS)
             .whereEqualTo(EMAIL, email)
             .get()
             .addOnSuccessListener { result ->
-                if (!result.isEmpty){
+                if (!result.isEmpty) {
                     val user = result.documents[0].toObject(User::class.java)!!
                     activity.memberDetails(user)
-                }
-                else{
+                } else {
                     activity.hideProgressDialog()
                     activity.showErrorSnackBar("No such user found")
                 }
@@ -207,7 +221,7 @@ class Firestore: BaseActivity(){
         activity: MembersActivity,
         board: Board,
         user: User
-    ){
+    ) {
         val assignedMemberHashMap = HashMap<String, Any>()
         assignedMemberHashMap[ASSIGNED_TO] = board.assignedTo
         mFirestore.collection(BOARDS)

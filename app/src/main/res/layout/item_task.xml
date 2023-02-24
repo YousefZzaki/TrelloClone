@@ -182,8 +182,6 @@
                    android:id="@+id/rv_card_list"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:paddingTop="20dp"
-                   android:paddingBottom="20dp"
                    android:layout_margin="@dimen/task_item_rv_card_list_margin"
                    app:layout_constraintTop_toTopOf="parent"
                    app:layout_constraintBottom_toTopOf="@id/cv_add_card"

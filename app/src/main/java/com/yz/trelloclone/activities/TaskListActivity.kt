@@ -12,7 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yz.trelloclone.R
 import com.yz.trelloclone.Utils.Constants.BOARD_DETAILS
+import com.yz.trelloclone.Utils.Constants.CARD_POSITION
 import com.yz.trelloclone.Utils.Constants.DOCUMENT_ID
+import com.yz.trelloclone.Utils.Constants.TASK_POSITION
 import com.yz.trelloclone.adapters.TaskListAdapter
 import com.yz.trelloclone.databinding.ActivityTaskListBinding
 import com.yz.trelloclone.firebase.Firestore
@@ -25,14 +27,23 @@ class TaskListActivity : BaseActivity() {
     private var binding: ActivityTaskListBinding? = null
     private lateinit var boardDetails: Board
 
-    private val membersActivityResult : ActivityResultLauncher<Intent> =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-            if (result.resultCode == RESULT_OK){
+    private val membersActivityLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
                 showProgressDialog()
                 Firestore().getBoardDetails(this, boardDetails.documentId)
                 Log.e(TAG, "Changes made")
-            }
-            else
+            } else
+                Log.e(TAG, "No changes made")
+        }
+
+    private val cardDetailsLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                showProgressDialog()
+                Firestore().getBoardDetails(this, boardDetails.documentId)
+                Log.e(TAG, "Changes made")
+            } else
                 Log.e(TAG, "No changes made")
         }
 
@@ -70,6 +81,14 @@ class TaskListActivity : BaseActivity() {
 
             Firestore().getBoardDetails(this, boardId)
         }
+    }
+
+    fun setCardDetails(taskPosition: Int, cardPosition: Int) {
+        val intent = Intent(this, CardDetailsActivity::class.java)
+        intent.putExtra(BOARD_DETAILS, boardDetails)
+        intent.putExtra(TASK_POSITION, taskPosition)
+        intent.putExtra(CARD_POSITION, cardPosition)
+        cardDetailsLauncher.launch(intent)
     }
 
     fun getBoardFromDB(board: Board) {
@@ -126,12 +145,15 @@ class TaskListActivity : BaseActivity() {
 
     }
 
-    fun addCard(position: Int, cardName: String){
+    fun addCard(position: Int, cardName: String) {
 
         val assignedTo = ArrayList<String>()
         assignedTo.add(getCurrentUserId())
 
         val card = Card(cardName, getCurrentUserId(), assignedTo)
+
+        boardDetails.taskList.removeAt(boardDetails.taskList.size - 1)
+
         boardDetails.taskList[position].taskCards.add(card)
 
         Firestore().addUpdateTaskList(this, boardDetails)
@@ -158,12 +180,12 @@ class TaskListActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.members_menu -> {
                 val intent = Intent(this, MembersActivity::class.java)
                 Log.e(TAG, "Task list board : $boardDetails")
                 intent.putExtra(BOARD_DETAILS, boardDetails)
-                membersActivityResult.launch(intent)
+                membersActivityLauncher.launch(intent)
             }
         }
         return super.onOptionsItemSelected(item)

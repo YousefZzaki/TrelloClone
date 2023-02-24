@@ -11,8 +11,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yz.trelloclone.R
 import com.yz.trelloclone.activities.BaseActivity.Companion.TAG
 import com.yz.trelloclone.activities.TaskListActivity
+import com.yz.trelloclone.databinding.DeleteDialogBinding
 import com.yz.trelloclone.databinding.ItemTaskBinding
 import com.yz.trelloclone.models.Task
 
@@ -144,6 +146,14 @@ class TaskListAdapter(private val context: Context) :
         holder.taskItem.rvCardList.layoutManager = LinearLayoutManager(context)
         holder.taskItem.rvCardList.setHasFixedSize(true)
 
+        adapter.setOnClickListener(object : CardAdapter.OnClickListener{
+            override fun onClick(cardPosition: Int) {
+                context as TaskListActivity
+                context.setCardDetails(holder.adapterPosition,cardPosition)
+            }
+
+        })
+
 
     }
 
@@ -166,20 +176,24 @@ class TaskListAdapter(private val context: Context) :
 
     private fun showDeleteAlertDialog(position: Int){
 
-        val builder = AlertDialog.Builder(context)
+        val dialogLayout = DeleteDialogBinding.inflate(LayoutInflater.from(context))
 
-        builder.setTitle("Deleting item")
+        val builder = AlertDialog.Builder(context, R.style.Theme_Dialog)
+        builder.setView(dialogLayout.root)
 
-        builder.setMessage("Are you sure to delete this item")
+        val dialog = builder.create()
 
-        builder.setNegativeButton("No"){ _, _ ->}
-        builder.setPositiveButton("Yes") {dialog, _ ->
+        dialogLayout.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogLayout.btnDelete.setOnClickListener {
             context as TaskListActivity
             context.deleteTask(position)
             dialog.dismiss()
         }
 
-        builder.create().show()
+        dialog.show()
     }
 
     fun setData(taskList: ArrayList<Task>) {
