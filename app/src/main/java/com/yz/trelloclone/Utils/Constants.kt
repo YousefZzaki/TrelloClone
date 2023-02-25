@@ -20,4 +20,19 @@ object Constants {
 
     const val TASK_POSITION = "task_position"
     const val CARD_POSITION = "card_position"
+
+    const val BOARD_MEMBERS_LIST = "board_members_list"
+
+    fun getColorList(): ArrayList<String>{
+        val colorList = ArrayList<String>()
+        colorList.add("#FF1E88E5")
+        colorList.add("#FF3949AB")
+        colorList.add("#FFE53935")
+        colorList.add("#FF00695C")
+        colorList.add("#FF76FF03")
+        colorList.add("#FF00B0FF")
+        colorList.add("#FF011343")
+
+        return colorList
+    }
 }

@@ -54,6 +54,7 @@ class MembersActivity : BaseActivity() {
     private fun getBoard() {
 
         if (intent.hasExtra(BOARD_DETAILS)) {
+            showProgressDialog()
             boardDetails = intent.getParcelableExtra(BOARD_DETAILS)!!
             Firestore().getAssignedUsers(this, boardDetails.assignedTo)
         }

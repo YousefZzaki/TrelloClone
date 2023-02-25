@@ -1,28 +1,36 @@
 package com.yz.trelloclone.activities
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.yz.trelloclone.R
 import com.yz.trelloclone.Utils.Constants.BOARD_DETAILS
+import com.yz.trelloclone.Utils.Constants.BOARD_MEMBERS_LIST
 import com.yz.trelloclone.Utils.Constants.CARD_POSITION
 import com.yz.trelloclone.Utils.Constants.TASK_POSITION
+import com.yz.trelloclone.Utils.Constants.getColorList
 import com.yz.trelloclone.databinding.ActivityCardDetailsBinding
 import com.yz.trelloclone.databinding.DeleteDialogBinding
+import com.yz.trelloclone.dialogs.LabelColorListDialog
 import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.Board
 import com.yz.trelloclone.models.Card
+import com.yz.trelloclone.models.User
 
 class CardDetailsActivity : BaseActivity() {
+
     private var binding: ActivityCardDetailsBinding? = null
     private lateinit var boardDetails: Board
     private var cardPosition: Int = 0
     private var taskPosition: Int = 0
-
     private lateinit var cardName: String
+    private var selectedColor = ""
+    private lateinit var boardAssignedMembersDetails: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityCardDetailsBinding.inflate(layoutInflater)
@@ -36,9 +44,21 @@ class CardDetailsActivity : BaseActivity() {
         setCardDetails()
 
         binding?.btnUpdate?.setOnClickListener {
-            updateCardDetails()
+            if (binding?.etName?.text?.isNotEmpty()!!)
+                updateCardDetails()
+            else
+                Toast.makeText(this, "Enter card name", Toast.LENGTH_LONG).show()
         }
 
+        binding?.btnSelectColor?.setOnClickListener {
+            colorListDialog()
+        }
+
+        selectedColor = boardDetails.taskList[taskPosition].taskCards[cardPosition].cardColor
+
+        if (selectedColor.isNotEmpty()) {
+            setColor()
+        }
     }
 
     private fun getCardDetails() {
@@ -50,6 +70,9 @@ class CardDetailsActivity : BaseActivity() {
         }
         if (intent.hasExtra(CARD_POSITION)) {
             cardPosition = intent.getIntExtra(CARD_POSITION, 0)
+        }
+        if (intent.hasExtra(BOARD_MEMBERS_LIST)){
+            boardAssignedMembersDetails = intent.getParcelableArrayListExtra(BOARD_MEMBERS_LIST)!!
         }
 
         cardName = boardDetails.taskList[taskPosition].taskCards[cardPosition].cardTitle
@@ -84,7 +107,8 @@ class CardDetailsActivity : BaseActivity() {
         val card = Card(
             binding?.etName?.text?.toString()!!,
             boardDetails.taskList[taskPosition].taskCards[cardPosition].createdBy,
-            boardDetails.taskList[taskPosition].taskCards[cardPosition].assignedTo
+            boardDetails.taskList[taskPosition].taskCards[cardPosition].assignedTo,
+            selectedColor
         )
 
         boardDetails.taskList[taskPosition].taskCards[cardPosition] = card
@@ -130,6 +154,23 @@ class CardDetailsActivity : BaseActivity() {
         dialog.show()
     }
 
+    private fun setColor() {
+        binding?.btnSelectColor?.text = ""
+        binding?.btnSelectColor?.setBackgroundColor(Color.parseColor(selectedColor))
+    }
+
+    private fun colorListDialog() {
+        val colorList = getColorList()
+
+        val colorListDialog = object : LabelColorListDialog(this, colorList, selectedColor) {
+            override fun onItemSelected(color: String) {
+                selectedColor = color
+                setColor()
+            }
+        }
+
+        colorListDialog.show()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.delete_card_menu, menu)

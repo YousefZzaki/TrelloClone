@@ -1,7 +1,9 @@
 package com.yz.trelloclone.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yz.trelloclone.databinding.CardItemBinding
@@ -30,10 +32,17 @@ class CardAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         val card = cardList[position]
+
         holder.cardItem.tvCardName.text = card.cardTitle
 
-        holder.cardItem.root.setOnClickListener{
-            if (onClickListener != null){
+        if (card.cardColor.isNotEmpty()) {
+            holder.cardItem.viewLabelColor.setBackgroundColor(Color.parseColor(card.cardColor))
+            holder.cardItem.viewLabelColor.visibility = View.VISIBLE
+        } else
+            holder.cardItem.viewLabelColor.visibility = View.GONE
+
+        holder.cardItem.root.setOnClickListener {
+            if (onClickListener != null) {
                 onClickListener!!.onClick(position)
             }
         }

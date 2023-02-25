@@ -143,12 +143,12 @@ class Firestore : BaseActivity() {
             .document(board.documentId)
             .update(hashMap)
             .addOnSuccessListener {
-                when(activity){
+                when (activity) {
                     is TaskListActivity -> {
                         Log.e(TAG, "Task added/updated successfully")
                         activity.onAddUpdateTaskList()
                     }
-                    is CardDetailsActivity ->{
+                    is CardDetailsActivity -> {
                         activity.onAddUpdateTaskList()
                     }
                 }
@@ -179,8 +179,7 @@ class Firestore : BaseActivity() {
             }
     }
 
-    fun getAssignedUsers(activity: MembersActivity, assignedTo: ArrayList<String>) {
-        activity.showProgressDialog()
+    fun getAssignedUsers(activity: Activity, assignedTo: ArrayList<String>) {
         mFirestore.collection(USERS)
             .whereIn(ID, assignedTo)
             .get().addOnSuccessListener { result ->
@@ -191,9 +190,15 @@ class Firestore : BaseActivity() {
                     users.add(user)
                 }
                 Log.e(TAG, "users $users")
-                activity.setupRecyclerView(users)
+                if (activity is MembersActivity)
+                    activity.setupRecyclerView(users)
+                else if (activity is TaskListActivity)
+                    activity.getMembersDetails(users)
             }.addOnFailureListener {
-                activity.hideProgressDialog()
+                if (activity is MembersActivity)
+                    activity.hideProgressDialog()
+                else if (activity is TaskListActivity)
+                    activity.hideProgressDialog()
                 Log.e(TAG, "Failed to get members ${it.message}")
             }
 

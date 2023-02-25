@@ -11,7 +11,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yz.trelloclone.R
+import com.yz.trelloclone.Utils.Constants
 import com.yz.trelloclone.Utils.Constants.BOARD_DETAILS
+import com.yz.trelloclone.Utils.Constants.BOARD_MEMBERS_LIST
 import com.yz.trelloclone.Utils.Constants.CARD_POSITION
 import com.yz.trelloclone.Utils.Constants.DOCUMENT_ID
 import com.yz.trelloclone.Utils.Constants.TASK_POSITION
@@ -21,11 +23,13 @@ import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.Board
 import com.yz.trelloclone.models.Card
 import com.yz.trelloclone.models.Task
+import com.yz.trelloclone.models.User
 
 class TaskListActivity : BaseActivity() {
 
     private var binding: ActivityTaskListBinding? = null
     private lateinit var boardDetails: Board
+    private lateinit var boardAssignedMembersDetails: ArrayList<User>
 
     private val membersActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -73,6 +77,13 @@ class TaskListActivity : BaseActivity() {
 
     }
 
+    fun getMembersDetails(membersList: ArrayList<User>){
+
+        boardAssignedMembersDetails = membersList
+
+        hideProgressDialog()
+    }
+
     private fun getBoardId() {
         showProgressDialog()
         val boardId: String
@@ -81,6 +92,7 @@ class TaskListActivity : BaseActivity() {
 
             Firestore().getBoardDetails(this, boardId)
         }
+
     }
 
     fun setCardDetails(taskPosition: Int, cardPosition: Int) {
@@ -88,6 +100,7 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(BOARD_DETAILS, boardDetails)
         intent.putExtra(TASK_POSITION, taskPosition)
         intent.putExtra(CARD_POSITION, cardPosition)
+        intent.putExtra(BOARD_MEMBERS_LIST, boardAssignedMembersDetails)
         cardDetailsLauncher.launch(intent)
     }
 
@@ -116,6 +129,10 @@ class TaskListActivity : BaseActivity() {
         binding?.rvTaskList?.adapter = adapter
 
         hideProgressDialog()
+
+        //Get board assigned members
+        showProgressDialog()
+        Firestore().getAssignedUsers(this, boardDetails.assignedTo)
     }
 
     fun onAddUpdateTaskList() {
