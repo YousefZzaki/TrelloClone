@@ -32,6 +32,8 @@ class MembersAdapter(val context: Context): RecyclerView.Adapter<MembersAdapter.
 
         holder.memberItem.tvMembersName.text = item.name
         holder.memberItem.tvMembersEmail.text = item.email
+
+
     }
 
     override fun getItemCount(): Int {
