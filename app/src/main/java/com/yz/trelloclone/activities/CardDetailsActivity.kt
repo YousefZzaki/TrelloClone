@@ -1,6 +1,7 @@
 package com.yz.trelloclone.activities
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.yz.trelloclone.R
+import com.yz.trelloclone.Utils.Constants
 import com.yz.trelloclone.Utils.Constants.BOARD_DETAILS
 import com.yz.trelloclone.Utils.Constants.BOARD_MEMBERS_LIST
 import com.yz.trelloclone.Utils.Constants.CARD_POSITION
@@ -47,7 +49,7 @@ class CardDetailsActivity : BaseActivity() {
             if (binding?.etName?.text?.isNotEmpty()!!)
                 updateCardDetails()
             else
-                Toast.makeText(this, "Enter card name", Toast.LENGTH_LONG).show()
+                Toast.makeText(baseContext, "Enter card name", Toast.LENGTH_LONG).show()
         }
 
         binding?.btnSelectColor?.setOnClickListener {
@@ -58,6 +60,15 @@ class CardDetailsActivity : BaseActivity() {
 
         if (selectedColor.isNotEmpty()) {
             setColor()
+        }
+
+        binding?.btnSelectMember?.setOnClickListener {
+            val intent = Intent(this, SelectMemberActivity::class.java)
+            intent.putExtra(BOARD_MEMBERS_LIST, boardAssignedMembersDetails)
+            intent.putExtra(BOARD_DETAILS, boardDetails)
+            intent.putExtra(TASK_POSITION, taskPosition)
+            intent.putExtra(CARD_POSITION, cardPosition)
+            startActivity(intent)
         }
     }
 

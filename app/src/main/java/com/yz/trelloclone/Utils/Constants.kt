@@ -23,6 +23,9 @@ object Constants {
 
     const val BOARD_MEMBERS_LIST = "board_members_list"
 
+    const val SELECTED = "selected"
+    const val UN_SELECTED = "un_selected"
+
     fun getColorList(): ArrayList<String>{
         val colorList = ArrayList<String>()
         colorList.add("#FF1E88E5")

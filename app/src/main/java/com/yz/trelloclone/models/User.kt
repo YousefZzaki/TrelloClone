@@ -9,15 +9,19 @@ data class User(
     val image: String = "",
     val email: String = "",
     val mobile: Long = 0,
-    val fcmToken: String = ""
-): Parcelable {
+    val fcmToken: String = "",
+    var isSelected: Boolean = false
+) : Parcelable {
+
+
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readLong(),
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.readInt() != 0
     ) {
     }
 
@@ -28,6 +32,7 @@ data class User(
         parcel.writeString(email)
         parcel.writeLong(mobile)
         parcel.writeString(fcmToken)
+        parcel.writeInt(if (isSelected) 1 else 0)
     }
 
     override fun describeContents(): Int {
@@ -43,4 +48,22 @@ data class User(
             return arrayOfNulls(size)
         }
     }
+
+    fun Parcel.writeBoolean(flag: Boolean?) {
+        when (flag) {
+            true -> writeInt(1)
+            false -> writeInt(0)
+            else -> writeInt(-1)
+        }
+    }
+
+    fun Parcel.readBoolean(): Boolean? {
+        return when (readInt()) {
+            1 -> true
+            0 -> false
+            else -> null
+        }
+    }
+
+    //  if (a) b else c
 }
