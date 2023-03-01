@@ -29,7 +29,7 @@ class TaskListActivity : BaseActivity() {
 
     private var binding: ActivityTaskListBinding? = null
     private lateinit var boardDetails: Board
-    private lateinit var boardAssignedMembersDetails: ArrayList<User>
+    lateinit var boardAssignedMembersDetails: ArrayList<User>
 
     private val membersActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -82,6 +82,25 @@ class TaskListActivity : BaseActivity() {
         boardAssignedMembersDetails = membersList
 
         hideProgressDialog()
+
+
+        //Initial task to making first task appear
+        val initTask = Task("Initial task")
+        boardDetails.taskList.add(initTask)
+
+        binding?.rvTaskList?.layoutManager =
+            LinearLayoutManager(
+                this,
+                LinearLayoutManager.HORIZONTAL, false
+            )
+
+        binding?.rvTaskList?.setHasFixedSize(false)
+
+        val adapter = TaskListAdapter(this)
+        adapter.setData(boardDetails.taskList)
+        binding?.rvTaskList?.adapter = adapter
+
+        hideProgressDialog()
     }
 
     private fun getBoardId() {
@@ -106,29 +125,13 @@ class TaskListActivity : BaseActivity() {
 
     fun getBoardFromDB(board: Board) {
 
+        hideProgressDialog()
+
         boardDetails = board
 
         Log.e(TAG, "Board from db $boardDetails")
 
         setupToolbar()
-
-        //Initial task to making first task appear
-        val initTask = Task("Initial task")
-        board.taskList.add(initTask)
-
-        binding?.rvTaskList?.layoutManager =
-            LinearLayoutManager(
-                this,
-                LinearLayoutManager.HORIZONTAL, false
-            )
-
-        binding?.rvTaskList?.setHasFixedSize(false)
-
-        val adapter = TaskListAdapter(this)
-        adapter.setData(board.taskList)
-        binding?.rvTaskList?.adapter = adapter
-
-        hideProgressDialog()
 
         //Get board assigned members
         showProgressDialog()
@@ -167,9 +170,9 @@ class TaskListActivity : BaseActivity() {
         val assignedTo = ArrayList<String>()
         assignedTo.add(getCurrentUserId())
 
-        val card = Card(cardName, getCurrentUserId(), assignedTo)
-
         boardDetails.taskList.removeAt(boardDetails.taskList.size - 1)
+
+        val card = Card(cardName, getCurrentUserId(), assignedTo)
 
         boardDetails.taskList[position].taskCards.add(card)
 
@@ -187,6 +190,15 @@ class TaskListActivity : BaseActivity() {
 
         showProgressDialog()
         Firestore().addUpdateTaskList(this, boardDetails)
+    }
+
+    fun updateCardsInTaskList(taskPosition: Int, cards: ArrayList<Card>){
+        boardDetails.taskList.removeAt(boardDetails.taskList.size - 1)
+        boardDetails.taskList[taskPosition].taskCards = cards
+
+        showProgressDialog()
+        Firestore().addUpdateTaskList(this, boardDetails)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

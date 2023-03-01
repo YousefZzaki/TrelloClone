@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yz.trelloclone.R
@@ -17,11 +19,15 @@ import com.yz.trelloclone.activities.TaskListActivity
 import com.yz.trelloclone.databinding.DeleteDialogBinding
 import com.yz.trelloclone.databinding.ItemTaskBinding
 import com.yz.trelloclone.models.Task
+import java.util.*
 
 class TaskListAdapter(private val context: Context) :
     RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
 
     private var listItem: ArrayList<Task> = ArrayList()
+
+    private var positionDraggedFrom = -1
+    private var positionDraggedTo = -1
 
     class TaskViewHolder(item: ItemTaskBinding) : RecyclerView.ViewHolder(item.root) {
 
@@ -88,7 +94,7 @@ class TaskListAdapter(private val context: Context) :
             holder.taskItem.llTitleView.visibility = View.GONE
             holder.taskItem.cvEditTaskListName.visibility = View.VISIBLE
 
-            holder.taskItem.etTaskListName.setText(item.taskTitle)
+            holder.taskItem.etEditTaskListName.setText(item.taskTitle)
         }
 
         holder.taskItem.ibCloseEditableView.setOnClickListener {
@@ -140,21 +146,70 @@ class TaskListAdapter(private val context: Context) :
             context.addCard(position, cardName)
         } //-----* END *-------
 
-        val adapter =  CardAdapter(context)
+        val adapter = CardAdapter(context)
         adapter.setData(item.taskCards)
         holder.taskItem.rvCardList.adapter = adapter
         holder.taskItem.rvCardList.layoutManager = LinearLayoutManager(context)
         holder.taskItem.rvCardList.setHasFixedSize(true)
 
-        adapter.setOnClickListener(object : CardAdapter.OnClickListener{
+        adapter.setOnClickListener(object : CardAdapter.OnClickListener {
             override fun onClick(cardPosition: Int) {
                 context as TaskListActivity
-                context.setCardDetails(holder.adapterPosition,cardPosition)
+                context.setCardDetails(holder.adapterPosition, cardPosition)
             }
 
         })
 
+        val helper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    dragged: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    val draggedPosition = dragged.adapterPosition
+                    val targetPosition = target.adapterPosition
 
+                    if (positionDraggedFrom == -1) {
+                        positionDraggedFrom = draggedPosition
+                    }
+                    positionDraggedTo = targetPosition
+
+                    Collections.swap(
+                        listItem[holder.adapterPosition].taskCards,
+                        draggedPosition,
+                        targetPosition
+                    )
+
+                    adapter.notifyItemMoved(draggedPosition, targetPosition)
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+
+                override fun clearView(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder
+                ) {
+                    super.clearView(recyclerView, viewHolder)
+
+                    if (positionDraggedTo != -1 && positionDraggedFrom != -1 &&
+                        positionDraggedTo != positionDraggedFrom
+                    ) {
+                        (context as TaskListActivity).updateCardsInTaskList(
+                            holder.adapterPosition,
+                            listItem[holder.adapterPosition].taskCards
+                        )
+                    }
+
+                    positionDraggedTo = -1
+                    positionDraggedFrom = -1
+
+                }
+            }
+        )
+
+        helper.attachToRecyclerView(holder.taskItem.rvCardList)
     }
 
     override fun getItemCount(): Int {
@@ -174,7 +229,7 @@ class TaskListAdapter(private val context: Context) :
         return (this * Resources.getSystem().displayMetrics.density).toInt()
     }
 
-    private fun showDeleteAlertDialog(position: Int){
+    private fun showDeleteAlertDialog(position: Int) {
 
         val dialogLayout = DeleteDialogBinding.inflate(LayoutInflater.from(context))
 

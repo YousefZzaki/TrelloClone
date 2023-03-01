@@ -26,6 +26,10 @@ class Firestore : BaseActivity() {
             .document(getUserUID()).set(userInfo, SetOptions.merge()).addOnSuccessListener {
                 activity.onRegisterSuccess()
             }
+            .addOnFailureListener {
+                Log.e(TAG, it.message.toString())
+                activity.hideProgressDialog()
+            }
     }
 
     fun createBoard(activity: CreateBoardActivity, board: Board) {
@@ -79,6 +83,7 @@ class Firestore : BaseActivity() {
             }
             .addOnFailureListener {
                 Log.e(TAG, it.message.toString())
+                activity.hideProgressDialog()
             }
     }
 
@@ -151,6 +156,9 @@ class Firestore : BaseActivity() {
                     is CardDetailsActivity -> {
                         activity.onAddUpdateTaskList()
                     }
+                    is SelectMemberActivity -> {
+                        activity.onAddUpdateTaskList()
+                    }
                 }
 
             }
@@ -190,15 +198,15 @@ class Firestore : BaseActivity() {
                     users.add(user)
                 }
                 Log.e(TAG, "users $users")
-                if (activity is MembersActivity)
-                    activity.setupRecyclerView(users)
-                else if (activity is TaskListActivity)
-                    activity.getMembersDetails(users)
+                when (activity) {
+                    is MembersActivity -> activity.setupRecyclerView(users)
+                    is TaskListActivity -> activity.getMembersDetails(users)
+                }
             }.addOnFailureListener {
-                if (activity is MembersActivity)
-                    activity.hideProgressDialog()
-                else if (activity is TaskListActivity)
-                    activity.hideProgressDialog()
+                when (activity) {
+                    is MembersActivity -> activity.hideProgressDialog()
+                    is TaskListActivity -> activity.hideProgressDialog()
+                }
                 Log.e(TAG, "Failed to get members ${it.message}")
             }
 

@@ -1,6 +1,5 @@
 package com.yz.trelloclone.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -30,7 +29,7 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
-    private fun setUpToolbar(){
+    private fun setUpToolbar() {
         setSupportActionBar(binding?.signUpToolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding?.signUpToolBar?.setNavigationIcon(R.drawable.ic_arrow_back)
@@ -39,7 +38,7 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
-    private fun registerUser(){
+    private fun registerUser() {
         val name = binding?.etName?.text.toString().trim()
         Log.e(TAG, name)
         val email = binding?.etEmail?.text.toString().trim()
@@ -47,31 +46,33 @@ class SignUpActivity : BaseActivity() {
         val password = binding?.etPassword?.text.toString()
         Log.e(TAG, password)
 
-        if (validateUserData(name, email, password)){
+        if (validateUserData(name, email, password)) {
             showProgressDialog(resources.getString(R.string.registering_user))
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                task ->
-                if (task.isSuccessful){
+                    task ->
+                if (task.isSuccessful) {
+                    Log.e(TAG, "Successfully registering")
                     val firebaseUser: FirebaseUser = task.result!!.user!!
                     val registeredEmail = firebaseUser.email!!
                     val user = User(firebaseUser.uid, name, registeredEmail)
                     Firestore().registerUser(this, user)
-                }
-                else{
+                } else {
+                    Log.e(TAG, "Failed registering")
                     Toast.makeText(this, task.exception!!.message, Toast.LENGTH_SHORT).show()
-//                    showErrorSnackBar(task.exception!!.message!!)
+                    showErrorSnackBar(task.exception!!.message!!)
+                    Log.e(TAG, task.exception!!.message.toString())
                 }
             }
         }
     }
 
-    private fun validateUserData(name: String, email: String, password: String ): Boolean{
-        if (name.isEmpty() && email.isEmpty() && password.isEmpty()){
+    private fun validateUserData(name: String, email: String, password: String): Boolean {
+        if (name.isEmpty() && email.isEmpty() && password.isEmpty()) {
             showErrorSnackBar("Please enter all fields")
             return false
         }
 
-        return when{
+        return when {
             name.isEmpty() -> {
                 showErrorSnackBar("Please enter name")
                 false
@@ -90,11 +91,12 @@ class SignUpActivity : BaseActivity() {
     }
 
 
-    fun onRegisterSuccess(){
+    fun onRegisterSuccess() {
         hideProgressDialog()
-//        auth.signOut()
-//        finish()
-        startActivity(Intent(this, MainActivity::class.java))
+        auth.signOut()
+        Log.e(TAG, "Successfully registering")
+        finish()
+//        startActivity(Intent(this, MainActivity::class.java))
         Toast.makeText(this, "Successfully registering", Toast.LENGTH_SHORT).show()
     }
 

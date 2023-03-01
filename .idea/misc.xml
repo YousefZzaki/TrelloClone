@@ -10,6 +10,7 @@
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/edit_text_background.xml" value="0.1315" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/edite_text_background.xml" value="0.1165" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/ic_add.xml" value="0.21" />
+        <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/ic_add_member.xml" value="0.1435" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/ic_arrow_back.xml" value="0.1315" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/ic_nav_menu.xml" value="0.1395" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/drawable/ic_person.xml" value="0.1315" />
@@ -40,6 +41,7 @@
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/delete_dialog.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/dialog_color_list.xml" value="0.25" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_board_rv.xml" value="0.25" />
+        <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_card_selected_member.xml" value="0.19746376811594202" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_label_color.xml" value="0.19746376811594202" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_lable_color.xml" value="0.19746376811594202" />
         <entry key="..\:/Users/youse/OneDrive/AndroidStudioProjects/TrelloClone/app/src/main/res/layout/item_task.xml" value="0.25" />

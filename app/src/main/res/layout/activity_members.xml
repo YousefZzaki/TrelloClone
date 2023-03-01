@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/abl_select_member"
+        android:id="@+id/abl_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/tb_select_member"
+            android:id="@+id/tb_members"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
 

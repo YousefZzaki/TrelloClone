@@ -1,13 +1,17 @@
 package com.yz.trelloclone.activities
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yz.trelloclone.R
 import com.yz.trelloclone.Utils.Constants
+import com.yz.trelloclone.Utils.Constants.BOARD_DETAILS
 import com.yz.trelloclone.Utils.Constants.BOARD_MEMBERS_LIST
 import com.yz.trelloclone.adapters.MembersAdapter
 import com.yz.trelloclone.databinding.ActivitySelectMemberBinding
+import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.Board
 import com.yz.trelloclone.models.User
 
@@ -18,7 +22,7 @@ class SelectMemberActivity : BaseActivity() {
     private var cardPosition: Int = 0
     private var taskPosition: Int = 0
 
-    private lateinit var assignedMembers: ArrayList<User>
+   private lateinit var assignedMembers: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,45 +44,77 @@ class SelectMemberActivity : BaseActivity() {
 
         setupToolBar()
 
-        setupRecyclerView(assignedMembers)
+        setupRecyclerView()
     }
 
-    private fun setupRecyclerView(members: ArrayList<User>) {
+     private fun setupRecyclerView() {
 
-        assignedMembers = members
 
         val adapter = MembersAdapter(this)
-        adapter.setData(members)
+        adapter.setData(assignedMembers)
         binding?.rvMembers?.adapter = adapter
         binding?.rvMembers?.layoutManager = LinearLayoutManager(this)
         adapter.setOnclickListener(object : MembersAdapter.OnClickListener {
             override fun onClick(position: Int, user: User, action: String) {
-                TODO("Not yet implemented")
-            }
+                if (action == Constants.SELECTED) {
+                    Log.e(TAG, "action select")
+                    if (!boardDetails.taskList[taskPosition].taskCards[cardPosition]
+                            .assignedTo.contains(user.id)
+                    ) {
+                        boardDetails.taskList[taskPosition].taskCards[cardPosition]
+                            .assignedTo.add(user.id)
+                    }
+                } else {
+                    Log.e(TAG, "action unselect")
+                    boardDetails.taskList[taskPosition].taskCards[cardPosition]
+                        .assignedTo.remove(user.id)
 
+                    for (i in assignedMembers.indices) {
+                        if (assignedMembers[i].id == user.id) {
+                            assignedMembers[i].isSelected = false
+                        }
+                    }
+                }
+                Firestore().addUpdateTaskList(this@SelectMemberActivity, boardDetails)
+
+               setResult(RESULT_OK, Intent().putExtra("SELECTED_BOARD_MEMBER_LIST", assignedMembers).putExtra(
+                   BOARD_DETAILS, boardDetails))
+                finish()
+            }
         })
+
+        Log.e(TAG, "assigned members: $assignedMembers")
 
         setupSelections()
     }
 
     private fun setupSelections() {
+
         val cardAssignedMembers =
             boardDetails.taskList[taskPosition].taskCards[cardPosition].assignedTo
 
-        if (cardAssignedMembers.size > 0 ){
-            for (boardMember in assignedMembers){
-                for (cardMember in cardAssignedMembers){
-                    if (boardMember.id == cardMember){
-                        boardMember.isSelected = true
+        Log.e(TAG, "card assigned members: $cardAssignedMembers")
+
+        if (cardAssignedMembers.size > 0) {
+            for (i in assignedMembers.indices) {
+                for (cardMember in cardAssignedMembers) {
+                    if (assignedMembers[i].id == cardMember) {
+                        Log.e(TAG, "card member: $cardMember, board member: ${assignedMembers[i]}")
+                        assignedMembers[i].isSelected = true
                     }
                 }
             }
-        }
-        else{
-            for (boardMember in assignedMembers){
-                boardMember.isSelected = false
+        } else {
+            for (i in assignedMembers.indices) {
+                assignedMembers[i].isSelected = false
             }
         }
+
+        Firestore().addUpdateTaskList(this@SelectMemberActivity, boardDetails)
+    }
+
+    fun onAddUpdateTaskList() {
+
     }
 
     private fun setupToolBar() {

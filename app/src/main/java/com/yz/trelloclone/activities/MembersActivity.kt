@@ -94,7 +94,6 @@ class MembersActivity : BaseActivity() {
         dialogBinding.tvAdd.setOnClickListener {
             val email = dialogBinding.etEmail.text.toString()
             if (email.isNotEmpty()) {
-                //TODO add email to members
                 showProgressDialog()
                 Firestore().getMemberDetails(this, email)
                 dialog.dismiss()

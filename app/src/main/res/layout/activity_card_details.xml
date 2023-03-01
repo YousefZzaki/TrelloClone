@@ -94,11 +94,22 @@
                     android:id="@+id/btn_select_member"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
                     android:layout_marginStart="20dp"
                     android:layout_marginBottom="10dp"
+                    android:background="?attr/selectableItemBackground"
                     android:text="@string/select_member"
                     android:textSize="17sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_selected_members"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:visibility="gone"
+                    />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -108,13 +119,14 @@
                     android:textColor="@color/secondary_text_color"
                     android:textSize="17sp" />
 
+
                 <TextView
                     android:id="@+id/btn_select_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
                     android:layout_marginStart="20dp"
                     android:layout_marginBottom="15dp"
+                    android:background="?attr/selectableItemBackground"
                     android:text="@string/select_date"
                     android:textSize="17sp" />
 
