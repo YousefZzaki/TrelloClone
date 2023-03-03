@@ -1,6 +1,8 @@
 package com.yz.trelloclone.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -16,10 +18,15 @@ import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.FirebaseMessagingKtxRegistrar
 import com.yz.trelloclone.adapters.BoardAdapter
 import com.yz.trelloclone.R
 import com.yz.trelloclone.Utils.Constants.DOCUMENT_ID
+import com.yz.trelloclone.Utils.Constants.FCM_TOKEN
+import com.yz.trelloclone.Utils.Constants.IS_TOKEN_UPDATED
 import com.yz.trelloclone.Utils.Constants.NAME
+import com.yz.trelloclone.Utils.Constants.PROJECT_PREFS
 import com.yz.trelloclone.databinding.ActivityMainBinding
 import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.Board
@@ -29,6 +36,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private var binding: ActivityMainBinding? = null
     private lateinit var user: User
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     private val myProfileActivityLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -62,11 +71,44 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         setFAB()
 
-        //Get user data to display it in drawer
+        sharedPreferences = this.getSharedPreferences(PROJECT_PREFS, Context.MODE_PRIVATE)
+
+        val isTokenUpdated = sharedPreferences.getBoolean(IS_TOKEN_UPDATED, false)
+
+        if (!isTokenUpdated){
+            FirebaseMessaging.getInstance().token.addOnCompleteListener {
+                updateFCMToken(it.result)
+                //Get user data to display it in drawer
+//                Firestore().signInUser(this)
+                getBoards()
+            }
+        }else{
+            //Get user data to display it in drawer
+            Firestore().signInUser(this)
+            getBoards()
+        }
+    }
+
+    fun onTokenUpdateSuccess(){
+        hideProgressDialog()
+        Log.e(TAG, "updateFCMToken hide")
+
+       val editor = sharedPreferences.edit()
+        editor.putBoolean(IS_TOKEN_UPDATED, true)
+        editor.apply()
+
+        showProgressDialog()
+        Log.e(TAG, " updateFCMToken and signin show")
         Firestore().signInUser(this)
+    }
 
-        getBoards()
+    private fun updateFCMToken(token: String){
+        val userHashMap = HashMap<String, Any>()
+        userHashMap[FCM_TOKEN] = token
 
+        showProgressDialog()
+        Log.e(TAG, "updateFCMToken show")
+        Firestore().updateUserProfileData(this, userHashMap)
     }
 
     private fun setFAB(){
@@ -81,6 +123,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     fun displayUserDataInDrawer(user: User) {
+
+        hideProgressDialog()
+        Log.e(TAG, " updateFCMToken and signin hide")
 
         //Get user to use it later
         this.user = user
@@ -101,11 +146,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
      fun addBoardsToUI(boardList: ArrayList<Board>){
 
+         hideProgressDialog()
+
         val rvBoards =  binding?.root?.findViewById<RecyclerView>(R.id.rv_boards)
         val tvNoBoards = binding?.root?.findViewById<TextView>(R.id.tv_no_boards)
 
         if (boardList.size > 0){
-            Log.e(TAG, "Board list size: ${boardList.size.toString()}")
+            Log.e(TAG, "Board list size: ${boardList.size}")
             rvBoards?.visibility = View.VISIBLE
             tvNoBoards?.visibility = View.INVISIBLE
             rvBoards?.layoutManager = LinearLayoutManager(this)
@@ -171,6 +218,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
+                sharedPreferences.edit().clear().apply()
                 val intent = Intent(this, IntroActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 Log.e(TAG, "User logged out")

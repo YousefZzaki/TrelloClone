@@ -1,6 +1,13 @@
 package com.yz.trelloclone.Utils
 
-object Constants {
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import coil.ImageLoader
+import coil.request.ImageRequest
+import coil.request.SuccessResult
+import com.yz.trelloclone.activities.BaseActivity
+
+object Constants : BaseActivity(){
 
     const val USERS = "Users"
 
@@ -26,6 +33,24 @@ object Constants {
     const val SELECTED = "selected"
     const val UN_SELECTED = "un_selected"
 
+    const val USER_ASSIGNED_NOTIFICATION_ID = 0
+
+    const val PROJECT_PREFS = "project_prefs"
+
+    const val FCM_TOKEN = "fcmToken"
+
+    const val IS_TOKEN_UPDATED = "token_is_updated"
+
+    const val FCM_BASE_URL = "https://fcm.googleapis.com/fcm/send"
+    const val FCM_AUTHORIZATION = "authorization"
+    const val FCM_KEY = "key"
+    const val FCM_KEY_TITLE = "title"
+    const val FCM_KEY_MESSAGE = "message"
+    const val FCM_KEY_DATA = "data"
+    const val FCM_KEY_TO = "to"
+
+
+
     fun getColorList(): ArrayList<String>{
         val colorList = ArrayList<String>()
         colorList.add("#FF1E88E5")
@@ -37,5 +62,16 @@ object Constants {
         colorList.add("#FF011343")
 
         return colorList
+    }
+
+     suspend fun getBitmap(imageUrl: String): Bitmap {
+
+        val loading = ImageLoader(applicationContext)
+        val imageRequest = ImageRequest.Builder(applicationContext)
+            .data(imageUrl)
+            .build()
+
+        val result = (loading.execute(imageRequest) as SuccessResult).drawable
+        return (result as BitmapDrawable).bitmap
     }
 }

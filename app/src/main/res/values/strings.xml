@@ -55,4 +55,6 @@
     <string name="delete_card">Delete card</string>
     <string name="are_sure_you_want_to_delete_this_item">Are sure you want to delete this item</string>
     <string name="checked">Checked</string>
+
+    <string name="notification_channel_id">project_Channel_id</string>
 </resources>

@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-database:ktx'
     implementation 'com.google.firebase:firebase-storage:ktx'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
 
     // https://github.com/hdodenhof/CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.0.1'
@@ -71,5 +71,9 @@ dependencies {
 
     //Dexter
     implementation 'com.karumi:dexter:6.0.1'
+
+    def arch_version = '2.2.0-alpha01'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$arch_version"
+
 
 }

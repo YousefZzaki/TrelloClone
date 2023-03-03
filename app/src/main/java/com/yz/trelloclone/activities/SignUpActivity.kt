@@ -54,7 +54,7 @@ class SignUpActivity : BaseActivity() {
                     Log.e(TAG, "Successfully registering")
                     val firebaseUser: FirebaseUser = task.result!!.user!!
                     val registeredEmail = firebaseUser.email!!
-                    val user = User(firebaseUser.uid, name, registeredEmail)
+                    val user = User(firebaseUser.uid, name, "", registeredEmail)
                     Firestore().registerUser(this, user)
                 } else {
                     Log.e(TAG, "Failed registering")

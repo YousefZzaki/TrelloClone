@@ -115,21 +115,37 @@ class Firestore : BaseActivity() {
             }
     }
 
-    fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {
+    fun updateUserProfileData(activity: Activity, userHashMap: HashMap<String, Any>) {
         mFirestore.collection(USERS)
             .document(getUserUID())
             .update(userHashMap)
             .addOnSuccessListener {
-                activity.onUpdateSuccess()
-                Log.i(TAG, "Data updated successfully")
-                Toast.makeText(
-                    activity.applicationContext,
-                    "Data updated successfully",
-                    Toast.LENGTH_LONG
-                ).show()
+                when(activity){
+                    is MainActivity ->{
+                        activity.onTokenUpdateSuccess()
+                    }
+                    is MyProfileActivity ->{
+                        activity.onUpdateSuccess()
+                        Log.i(TAG, "Data updated successfully")
+                        Toast.makeText(
+                            activity.applicationContext,
+                            "Data updated successfully",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+
 
             }.addOnFailureListener {
-                activity.hideProgressDialog()
+
+                when(activity){
+                    is MainActivity ->{
+                        activity.hideProgressDialog()
+                    }
+                    is MyProfileActivity ->{
+                        activity.hideProgressDialog()
+                    }
+                }
                 Log.e(TAG, it.message.toString())
                 Toast.makeText(
                     activity.applicationContext,
