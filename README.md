@@ -1,2 +1,7 @@
 # TrelloClone
-Kotlin
+-Kotlin
+-Firebase
+-Cloud messagin
+-Json
+-Drag & drob
+-Notifications
