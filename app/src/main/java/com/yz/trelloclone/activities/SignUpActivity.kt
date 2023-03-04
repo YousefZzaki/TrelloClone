@@ -19,7 +19,6 @@ class SignUpActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-        setUpToolbar()
 
         //Cet an instance from database
         auth = FirebaseAuth.getInstance()
@@ -29,14 +28,6 @@ class SignUpActivity : BaseActivity() {
         }
     }
 
-    private fun setUpToolbar() {
-        setSupportActionBar(binding?.signUpToolBar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding?.signUpToolBar?.setNavigationIcon(R.drawable.ic_arrow_back)
-        binding?.signUpToolBar?.setNavigationOnClickListener {
-            super.onBackPressed()
-        }
-    }
 
     private fun registerUser() {
         val name = binding?.etName?.text.toString().trim()

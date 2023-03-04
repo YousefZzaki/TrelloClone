@@ -1,8 +1,9 @@
 package com.yz.trelloclone.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.yz.trelloclone.databinding.ActivityIntroBinding
 
 class IntroActivity : AppCompatActivity() {
@@ -13,6 +14,10 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityIntroBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
         binding?.btnSignUp?.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))

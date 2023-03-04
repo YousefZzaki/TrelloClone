@@ -4,69 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SignInActivity"
-    android:background="@drawable/ic_background">
+    android:background="@drawable/ic_intro_background"
+    tools:context=".activities.SignInActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/signIpToolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_in"
-            android:textColor="@color/primary_text_color"
-            android:textSize="@dimen/main_toolBar_text_size"
-            android:textStyle="bold" />
-    </androidx.appcompat.widget.Toolbar>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textSize="18sp"
-        android:text="@string/enter_your_email_and_password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ll_sign_up"
-        />
 
     <LinearLayout
         android:id="@+id/ll_sign_up"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="160sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+   >
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="10dp"
-            android:layout_margin="15dp"
+            android:layout_marginBottom="-16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15sp"
                 android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="15dp"
+                    android:layout_weight="1"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#E92B2A2A"
+                    android:text="Welcome back"
+                    />
+
                 <EditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_margin="15dp"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp"
+                    android:layout_marginTop="15sp"
+                    android:autofillHints="emailAddress"
                     android:background="@drawable/edit_text_background"
                     android:ems="10"
                     android:hint="@string/e_mail"
                     android:inputType="textEmailAddress"
-                    android:autofillHints="emailAddress"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp"
                     android:textColorHint="#757575"
@@ -78,7 +67,10 @@
                     android:id="@+id/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_margin="15dp"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginStart="15sp"
+                    android:layout_marginEnd="15sp"
                     android:autofillHints=""
                     android:background="@drawable/edit_text_background"
                     android:ems="10"
@@ -93,12 +85,14 @@
 
                 <Button
                     android:id="@+id/btn_sign_in"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/my_profile_btn_height"
-                    android:layout_margin="15dp"
+                    android:layout_marginBottom="20sp"
+                    android:layout_marginStart="10sp"
+                    android:layout_marginEnd="10sp"
                     android:background="@drawable/button_background"
                     android:text="@string/sign_in"
-                    style="?android:attr/borderlessButtonStyle"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </LinearLayout>

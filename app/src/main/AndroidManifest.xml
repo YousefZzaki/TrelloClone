@@ -42,12 +42,11 @@
             android:exported="false" />
         <activity
             android:name=".activities.CreateBoardActivity"
-            android:exported="false"
-            android:theme="@style/Theme.NoActionBar" />
+            android:exported="false" />
         <activity
             android:name=".activities.MyProfileActivity"
             android:exported="false"
-            android:theme="@style/Theme.NoActionBar" />
+            android:theme="@style/ThemeWhiteStatusBar" />
         <activity
             android:name=".activities.BaseActivity"
             android:exported="false"
@@ -55,15 +54,15 @@
         <activity
             android:name=".activities.SignInActivity"
             android:exported="false"
-            android:theme="@style/Theme.NoActionBar" />
+            android:theme="@style/ThemeTransparentStatusBar" />
         <activity
             android:name=".activities.SignUpActivity"
             android:exported="false"
-            android:theme="@style/Theme.NoActionBar" />
+            android:theme="@style/ThemeTransparentStatusBar" />
         <activity
             android:name=".activities.IntroActivity"
             android:exported="false"
-            android:theme="@style/Theme.NoActionBar" />
+            android:theme="@style/ThemeTransparentStatusBar" />
         <activity
             android:name=".activities.SplashScreenActivity"
             android:exported="true"
@@ -77,6 +76,7 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
+            android:theme="@style/ThemeWhiteStatusBar"
             android:exported="true" />
 
         <service

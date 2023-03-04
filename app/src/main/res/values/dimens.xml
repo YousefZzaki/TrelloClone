@@ -23,7 +23,7 @@
     <dimen name="my_profile_screen_content_padding">16dp</dimen>
     <dimen name="my_profile_user_image_size">100dp</dimen>
     <dimen name="my_profile_user_image_margin">20dp</dimen>
-    <dimen name="my_profile_til_main_marginTop">15dp</dimen>
+    <dimen name="my_profile_til_main_marginTop">5dp</dimen>
     <dimen name="my_profile_til_main_marginStartEnd">15dp</dimen>
     <dimen name="my_profile_btn_update_marginTop">30dp</dimen>
     <dimen name="my_profile_btn_update_marginStartEnd">15dp</dimen>

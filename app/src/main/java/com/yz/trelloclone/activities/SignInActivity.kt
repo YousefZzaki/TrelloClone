@@ -21,21 +21,12 @@ class SignInActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding?.root)
-        setUpActionBar()
+
 
         auth = FirebaseAuth.getInstance()
 
         binding?.btnSignIn?.setOnClickListener {
             signInUser()
-        }
-    }
-
-    private fun setUpActionBar(){
-        setSupportActionBar(binding?.signIpToolBar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        binding?.signIpToolBar?.setNavigationIcon(R.drawable.ic_arrow_back)
-        binding?.signIpToolBar?.setNavigationOnClickListener {
-            super.onBackPressed()
         }
     }
 

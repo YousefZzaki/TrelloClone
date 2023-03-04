@@ -4,83 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/intro_background"
+    android:background="@drawable/ic_intro_background"
     tools:context=".activities.IntroActivity">
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/app_main_margin"
-        android:text="@string/trello_clone"
-        android:textColor="@color/button_end_color"
-        android:textSize="35sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/iv_task_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_task_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <TextView
         android:id="@+id/tv_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/introduction_text_margin"
+        android:layout_marginBottom="20sp"
         android:text="@string/let_s_get_started"
-        android:textColor="@color/primary_text_color"
+        android:textColor="@color/white"
         android:textSize="@dimen/introduction_text_size"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_txt"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_task_image" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="25sp"
         android:text="@string/string_introduce"
-        android:layout_margin="10dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_intro" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <Button
         android:id="@+id/btn_sign_up"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="50sp"
         android:layout_margin="@dimen/button_margin"
+        android:background="@drawable/button_background"
         android:foreground="?attr/selectableItemBackground"
         style="?android:attr/borderlessButtonStyle"
-        android:background="@drawable/button_background"
         android:text="@string/sign_up"
-        android:textSize="18sp"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/tv_txt"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sign_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_sign_in"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="@dimen/button_margin"
-        android:foreground="?attr/selectableItemBackground"
         style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_margin="@dimen/button_margin"
         android:background="@drawable/white_button_background"
+        android:foreground="?attr/selectableItemBackground"
         android:text="@string/sign_in"
+        android:textColor="@color/primary_text_color"
         android:textSize="18sp"
-        android:textColor="@color/button_start_color"
-        app:layout_constraintTop_toBottomOf="@id/btn_sign_up"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

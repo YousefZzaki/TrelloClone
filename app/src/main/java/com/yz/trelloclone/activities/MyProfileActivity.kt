@@ -178,8 +178,6 @@ class MyProfileActivity : BaseActivity() {
 
     private fun updateUserProfileData() {
 
-        showProgressDialog()
-
         val userHashMap = HashMap<String, Any>()
 
         var anyChangedMade = false
@@ -199,8 +197,11 @@ class MyProfileActivity : BaseActivity() {
             Log.e(TAG, "Mob: " + binding?.etMobile?.text.toString().toLong())
             anyChangedMade = true
         }
-        if (anyChangedMade)
+        if (anyChangedMade) {
+            showProgressDialog()
             Firestore().updateUserProfileData(this, userHashMap)
+        }
+
     }
 
     fun setUserData(user: User) {
@@ -218,7 +219,7 @@ class MyProfileActivity : BaseActivity() {
         binding?.etName?.setText(user.name)
         binding?.etEmail?.setText(user.email)
         if (user.mobile == 0L) {
-            binding?.etMobile?.setText(user.mobile.toString())
+            binding?.etMobile?.setText("")
         }
         binding?.etMobile?.setText(user.mobile.toString())
 

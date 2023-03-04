@@ -19,14 +19,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.ktx.FirebaseMessagingKtxRegistrar
-import com.yz.trelloclone.adapters.BoardAdapter
 import com.yz.trelloclone.R
 import com.yz.trelloclone.Utils.Constants.DOCUMENT_ID
 import com.yz.trelloclone.Utils.Constants.FCM_TOKEN
 import com.yz.trelloclone.Utils.Constants.IS_TOKEN_UPDATED
 import com.yz.trelloclone.Utils.Constants.NAME
 import com.yz.trelloclone.Utils.Constants.PROJECT_PREFS
+import com.yz.trelloclone.adapters.BoardAdapter
 import com.yz.trelloclone.databinding.ActivityMainBinding
 import com.yz.trelloclone.firebase.Firestore
 import com.yz.trelloclone.models.Board
@@ -40,25 +39,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var sharedPreferences: SharedPreferences
 
     private val myProfileActivityLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == RESULT_OK){
-            //Update data and to display it in the drawer
-            Firestore().signInUser(this)
-            Log.e(TAG, "Data has been updating")
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                //Update data and to display it in the drawer
+                Firestore().signInUser(this)
+                Log.e(TAG, "Data has been updating")
+            } else
+                Log.e(TAG, "Data not updated")
         }
-        else
-            Log.e(TAG, "Data not updated")
-    }
 
     private val addBoardActivityLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == RESULT_OK){
-            getBoards()
-            Log.e(TAG, "Boards data has been updating")
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK) {
+                getBoards()
+                Log.e(TAG, "Boards data has been updating")
+            } else
+                Log.e(TAG, "Data not updated")
         }
-        else
-            Log.e(TAG, "Data not updated")
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,34 +72,31 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         val isTokenUpdated = sharedPreferences.getBoolean(IS_TOKEN_UPDATED, false)
 
-        if (!isTokenUpdated){
+        if (!isTokenUpdated) {
             FirebaseMessaging.getInstance().token.addOnCompleteListener {
                 updateFCMToken(it.result)
-                //Get user data to display it in drawer
-//                Firestore().signInUser(this)
-                getBoards()
             }
-        }else{
+        } else {
             //Get user data to display it in drawer
             Firestore().signInUser(this)
             getBoards()
         }
     }
 
-    fun onTokenUpdateSuccess(){
+    fun onTokenUpdateSuccess() {
         hideProgressDialog()
         Log.e(TAG, "updateFCMToken hide")
 
-       val editor = sharedPreferences.edit()
+        val editor = sharedPreferences.edit()
         editor.putBoolean(IS_TOKEN_UPDATED, true)
         editor.apply()
 
-        showProgressDialog()
         Log.e(TAG, " updateFCMToken and signin show")
         Firestore().signInUser(this)
+        getBoards()
     }
 
-    private fun updateFCMToken(token: String){
+    private fun updateFCMToken(token: String) {
         val userHashMap = HashMap<String, Any>()
         userHashMap[FCM_TOKEN] = token
 
@@ -111,7 +105,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         Firestore().updateUserProfileData(this, userHashMap)
     }
 
-    private fun setFAB(){
+    private fun setFAB() {
 
         val fab = binding?.root?.findViewById<FloatingActionButton>(R.id.fab_add)
 
@@ -144,14 +138,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setUserImageInToolbar()
     }
 
-     fun addBoardsToUI(boardList: ArrayList<Board>){
+    fun addBoardsToUI(boardList: ArrayList<Board>) {
 
-         hideProgressDialog()
+        hideProgressDialog()
+        Log.e(TAG, "Get boards dialog hide")
 
-        val rvBoards =  binding?.root?.findViewById<RecyclerView>(R.id.rv_boards)
+        val rvBoards = binding?.root?.findViewById<RecyclerView>(R.id.rv_boards)
         val tvNoBoards = binding?.root?.findViewById<TextView>(R.id.tv_no_boards)
 
-        if (boardList.size > 0){
+        if (boardList.size > 0) {
             Log.e(TAG, "Board list size: ${boardList.size}")
             rvBoards?.visibility = View.VISIBLE
             tvNoBoards?.visibility = View.INVISIBLE
@@ -160,7 +155,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             val adapter = BoardAdapter(this)
             adapter.setData(boardList)
             rvBoards?.adapter = adapter
-            adapter.setOnClickListener(object : BoardAdapter.OnClickListener{
+            adapter.setOnClickListener(object : BoardAdapter.OnClickListener {
                 override fun onClick(position: Int, board: Board) {
                     val intent = Intent(this@MainActivity, TaskListActivity::class.java)
                     Log.e(TAG, "selected board id: ${board.documentId}")
@@ -168,12 +163,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     startActivity(intent)
                 }
             })
-        }else{
+        } else {
             rvBoards?.visibility = View.GONE
             tvNoBoards?.visibility = View.VISIBLE
         }
-
-       hideProgressDialog()
     }
 
     private fun setUpActionBar() {
@@ -189,12 +182,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    private fun getBoards(){
+    private fun getBoards() {
         showProgressDialog()
+        Log.e(TAG, "Get boards dialog show")
         Firestore().getBoardList(this)
     }
 
-    private fun setUserImageInToolbar(){
+    private fun setUserImageInToolbar() {
         Log.e(TAG, this.user.toString())
         Glide
             .with(this)
@@ -212,7 +206,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.nav_my_profile -> {
                 myProfileActivityLauncher.launch(Intent(this, MyProfileActivity::class.java))
             }
@@ -232,12 +226,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onBackPressed() {
-        if (binding?.drawerLayout!!.isDrawerOpen(GravityCompat.START)){
+        if (binding?.drawerLayout!!.isDrawerOpen(GravityCompat.START)) {
             binding?.drawerLayout!!.closeDrawer(GravityCompat.START)
-        }else{
+        } else {
             doubleClickToExit()
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         binding = null

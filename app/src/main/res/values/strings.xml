@@ -7,7 +7,7 @@
     <string name="string_introduce">collaborate in the project with multiple device \n and plane for the project around the task</string>
     <string name="sign_up">SIGN UP</string>
     <string name="sign_in">SIGN IN</string>
-    <string name="you_need_to_enter_your_details">You need to enter your details.</string>
+    <string name="you_need_to_enter_your_details">New\nAccount</string>
     <string name="name">Name</string>
     <string name="e_mail">E-mail</string>
     <string name="password">Password</string>
@@ -57,4 +57,5 @@
     <string name="checked">Checked</string>
 
     <string name="notification_channel_id">project_Channel_id</string>
+    <string name="your_phone_number">Your phone number</string>
 </resources>
