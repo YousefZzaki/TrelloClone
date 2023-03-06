@@ -6,11 +6,10 @@ A brief description of what this project does and who it's for
 
 ## Features
 
-- Manage your tasks esially.
+- Manage your tasks easily.
 - Assign members to cards 
 - Each Board has all the lists with task cards.
-- Send notifications to the assined members
-- Manage your tasks esially.
+- Send notifications to the assigned members
 - Drag and drop the cards
 ## Technologies 
 - Kollin 
