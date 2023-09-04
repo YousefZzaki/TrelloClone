@@ -13,10 +13,10 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.yz.trelloclone.R
-import com.yz.trelloclone.Utils.Constants
-import com.yz.trelloclone.Utils.Constants.FCM_KEY_MESSAGE
-import com.yz.trelloclone.Utils.Constants.FCM_KEY_TITLE
-import com.yz.trelloclone.Utils.Constants.USER_ASSIGNED_NOTIFICATION_ID
+import com.yz.trelloclone.utils.Constants
+import com.yz.trelloclone.utils.Constants.FCM_KEY_MESSAGE
+import com.yz.trelloclone.utils.Constants.FCM_KEY_TITLE
+import com.yz.trelloclone.utils.Constants.USER_ASSIGNED_NOTIFICATION_ID
 import com.yz.trelloclone.activities.BaseActivity.Companion.TAG
 import com.yz.trelloclone.activities.MainActivity
 

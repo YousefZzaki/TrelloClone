@@ -76,4 +76,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$arch_version"
 
 
+    //Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+
 }
